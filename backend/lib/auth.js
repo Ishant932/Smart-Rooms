@@ -207,19 +207,19 @@ async function requestPasswordReset(email) {
 
     const msg = String(err.message || '');
     const domainBlocked = /verify a domain|only send testing emails/i.test(msg);
-    const allowInline = String(process.env.OTP_INLINE_FALLBACK || 'true').toLowerCase() !== 'false';
+    // Inline OTP is OFF by default — real inbox delivery only.
+    const allowInline = String(process.env.OTP_INLINE_FALLBACK || 'false').toLowerCase() === 'true';
 
-    if (!allowInline) {
-      if (domainBlocked) {
-        return {
-          error: 'Resend can only email the account owner until you verify a domain at resend.com/domains.',
-        };
-      }
-      return { error: 'Could not send OTP email. Please try again in a minute.' };
+    if (allowInline) {
+      delivery = 'inline';
+      console.warn(`[auth] Email delivery failed — returning inline OTP for ${normalized}`);
+    } else if (domainBlocked) {
+      return {
+        error: 'Cannot email OTP yet: Resend needs a verified domain (or configure Gmail SMTP). OTP was not shown on screen.',
+      };
+    } else {
+      return { error: 'Could not send OTP email to your inbox. Please try again in a minute.' };
     }
-
-    delivery = 'inline';
-    console.warn(`[auth] Email delivery failed — returning inline OTP for ${normalized}`);
   }
 
   await savePasswordResetsFlush(list.slice(0, 200));
@@ -234,8 +234,9 @@ async function requestPasswordReset(email) {
     };
   }
 
+  // Never return OTP in API response for real email delivery.
   return {
-    message: 'OTP sent to your email. Enter the 6-digit code to reset your password.',
+    message: 'We sent a 6-digit OTP to your email. Check your inbox (and spam), then enter it below.',
     email: normalized,
     expiresInMinutes: 10,
     delivery: 'email',

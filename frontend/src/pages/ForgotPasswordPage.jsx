@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Mail, Lock, KeyRound, Eye, EyeOff, ArrowLeft, ShieldCheck, Copy, Check } from 'lucide-react';
+import { Mail, Lock, KeyRound, Eye, EyeOff, ArrowLeft, ShieldCheck } from 'lucide-react';
 import AuthShell, { FormField, FormInput, FormButton, FormAlert } from '../components/AuthShell';
 import { forgotPassword, resetPassword } from '../api/client';
 
@@ -12,31 +12,30 @@ export default function ForgotPasswordPage() {
   const [step, setStep] = useState('email'); // email | reset | done
   const [email, setEmail] = useState(initialEmail);
   const [otp, setOtp] = useState('');
-  const [issuedOtp, setIssuedOtp] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [showPass, setShowPass] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
 
   const title = useMemo(() => {
     if (step === 'done') return 'Password updated';
-    if (step === 'reset') return 'Reset your password';
+    if (step === 'reset') return 'Enter email OTP';
     return 'Forgot password';
   }, [step]);
 
   const subtitle = useMemo(() => {
     if (step === 'done') return 'You can sign in with your new password now.';
-    if (step === 'reset') return 'Use the OTP below, then set a new password (min 6 characters).';
-    return 'Enter your account email to get a one-time password reset code.';
-  }, [step]);
+    if (step === 'reset') return `We emailed a 6-digit OTP to ${email}. Check inbox/spam, then continue.`;
+    return 'We will email a one-time OTP to your registered address. Enter that code to reset your password.';
+  }, [step, email]);
 
   const sendOtp = async (e) => {
     e?.preventDefault?.();
     setError('');
     setInfo('');
+    setOtp('');
     if (!email.trim()) {
       setError('Please enter your email');
       return;
@@ -44,39 +43,20 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     try {
       const data = await forgotPassword(email.trim().toLowerCase());
-      if (data.error) {
-        setError(data.error);
-        return;
-      }
-      const code = data.otp ? String(data.otp) : '';
-      setIssuedOtp(code);
-      setOtp(code);
-      setInfo(data.message || 'OTP ready. Continue below.');
+      setInfo(data.message || 'If this email is registered, an OTP was sent.');
       setStep('reset');
     } catch (err) {
-      setError(err.response?.data?.error || 'Could not send OTP. Try again.');
+      setError(err.response?.data?.error || 'Could not send OTP email. Try again.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const copyOtp = async () => {
-    if (!issuedOtp) return;
-    try {
-      await navigator.clipboard.writeText(issuedOtp);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      /* ignore */
     }
   };
 
   const submitReset = async (e) => {
     e.preventDefault();
     setError('');
-    const code = (otp || issuedOtp).trim();
-    if (!/^\d{6}$/.test(code)) {
-      setError('Enter the 6-digit OTP shown above');
+    if (!/^\d{6}$/.test(otp.trim())) {
+      setError('Enter the 6-digit OTP from your email');
       return;
     }
     if (password.length < 6) {
@@ -91,14 +71,13 @@ export default function ForgotPasswordPage() {
     try {
       const data = await resetPassword({
         email: email.trim().toLowerCase(),
-        otp: code,
+        otp: otp.trim(),
         newPassword: password,
       });
       setInfo(data.message || 'Password updated.');
-      setIssuedOtp('');
       setStep('done');
     } catch (err) {
-      setError(err.response?.data?.error || 'Reset failed. Click “Get new OTP” and use the latest code.');
+      setError(err.response?.data?.error || 'Reset failed. Use the latest OTP from your email.');
     } finally {
       setLoading(false);
     }
@@ -108,12 +87,12 @@ export default function ForgotPasswordPage() {
     <AuthShell
       title={title}
       subtitle={subtitle}
-      sideTitle="Secure password recovery"
+      sideTitle="Email OTP reset"
       sidePoints={[
-        'Works for tenants, owners & admin',
-        '6-digit OTP (valid 10 minutes)',
-        'Do not request multiple codes — use the latest one',
-        'Then sign in with your new password',
+        'OTP is sent to your real email inbox',
+        'Code expires in 10 minutes',
+        'Check spam/junk if you do not see it',
+        'Works for tenant, owner & admin accounts',
       ]}
       footer={
         <div className="mt-8 space-y-3 border-t border-gray-100 pt-6 text-center text-sm text-gray-500">
@@ -139,40 +118,24 @@ export default function ForgotPasswordPage() {
           {info && <FormAlert type="success">{info}</FormAlert>}
           <FormButton type="submit" loading={loading}>
             <KeyRound size={18} />
-            {loading ? 'Getting OTP…' : 'Get OTP'}
+            {loading ? 'Sending email…' : 'Send OTP to email'}
           </FormButton>
         </form>
       )}
 
       {step === 'reset' && (
         <form onSubmit={submitReset} className="space-y-5">
-          {issuedOtp && (
-            <div className="rounded-2xl border border-brand-200 bg-brand-50 p-4 text-center">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brand-700">Your OTP</p>
-              <p className="mt-2 font-mono text-3xl font-extrabold tracking-[0.35em] text-gray-900">{issuedOtp}</p>
-              <button
-                type="button"
-                onClick={copyOtp}
-                className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-700 hover:underline"
-              >
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-                {copied ? 'Copied' : 'Copy OTP'}
-              </button>
-              <p className="mt-2 text-xs text-gray-500">Use this latest code only. Getting a new OTP cancels the old one.</p>
-            </div>
-          )}
-
           <FormField label="Email" required>
             <FormInput icon={Mail} type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </FormField>
-          <FormField label="6-digit OTP" required>
+          <FormField label="OTP from your email" required>
             <FormInput
               icon={ShieldCheck}
               inputMode="numeric"
               autoComplete="one-time-code"
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              placeholder="123456"
+              placeholder="6-digit code"
             />
           </FormField>
           <FormField label="New password" required>
@@ -206,7 +169,7 @@ export default function ForgotPasswordPage() {
             />
           </FormField>
           {error && <FormAlert>{error}</FormAlert>}
-          {info && !issuedOtp && <FormAlert type="success">{info}</FormAlert>}
+          {info && <FormAlert type="success">{info}</FormAlert>}
           <FormButton type="submit" loading={loading}>
             <Lock size={18} />
             {loading ? 'Updating…' : 'Reset password'}
@@ -217,7 +180,7 @@ export default function ForgotPasswordPage() {
             onClick={sendOtp}
             className="w-full text-center text-sm font-semibold text-brand-600 hover:underline disabled:opacity-50"
           >
-            Get new OTP
+            Resend OTP email
           </button>
         </form>
       )}
