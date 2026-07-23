@@ -1,0 +1,36 @@
+[
+  {
+    "id": "7671eb3c-36b2-45fd-9f71-610afbd222ac",
+    "title": "hs",
+    "type": "pg-boys",
+    "price": 6565,
+    "deposit": 5454,
+    "location": "jaipur",
+    "city": "Jaipur",
+    "address": "jhvjh",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "area": 0,
+    "furnishing": "Fully Furnished",
+    "gender": "boys",
+    "availableFor": "students",
+    "amenities": [],
+    "description": "jhv",
+    "owner": {
+      "name": "gaurav",
+      "phone": "6598985659",
+      "verified": false
+    },
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "featured": false,
+    "verified": false,
+    "rating": 0,
+    "reviews": 0,
+    "postedAt": "2026-05-31T16:13:14.146Z",
+    "images": [
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80"
+    ],
+    "listingStatus": "occupied",
+    "lastTenant": null
+  }
+]

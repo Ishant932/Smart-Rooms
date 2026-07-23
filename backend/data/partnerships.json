@@ -1,0 +1,41 @@
+[
+  {
+    "id": "part-001",
+    "collegeName": "MNIT Jaipur",
+    "city": "Jaipur",
+    "contactPerson": "Dr. Anil Mehta",
+    "email": "partnerships@mnit.ac.in",
+    "commissionPercent": 5,
+    "commissionMonths": 3,
+    "status": "active",
+    "studentsReferred": 45,
+    "totalRentProcessed": 285000,
+    "joinedAt": "2025-11-01T00:00:00Z"
+  },
+  {
+    "id": "part-002",
+    "collegeName": "Christ University",
+    "city": "Bangalore",
+    "contactPerson": "Ms. Priya Nair",
+    "email": "housing@christuniversity.in",
+    "commissionPercent": 5,
+    "commissionMonths": 3,
+    "status": "active",
+    "studentsReferred": 62,
+    "totalRentProcessed": 520000,
+    "joinedAt": "2025-09-15T00:00:00Z"
+  },
+  {
+    "id": "part-003",
+    "collegeName": "JECRC University",
+    "city": "Jaipur",
+    "contactPerson": "Mr. Vikram Singh",
+    "email": "studentaffairs@jecrc.edu",
+    "commissionPercent": 5,
+    "commissionMonths": 3,
+    "status": "pending",
+    "studentsReferred": 0,
+    "totalRentProcessed": 0,
+    "joinedAt": "2026-05-20T00:00:00Z"
+  }
+]

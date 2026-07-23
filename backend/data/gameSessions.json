@@ -1,0 +1,50 @@
+[
+  {
+    "id": "c0b82881-c084-432c-83d5-e8f44c1a7e5b",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "gameId": "cake-cut",
+    "score": 200,
+    "pointsEarned": 35,
+    "playedAt": "2026-05-31T16:55:52.027Z"
+  },
+  {
+    "id": "f82f6544-34d4-4c0e-bae2-ab1486277f7f",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "gameId": "cake-cut",
+    "score": 200,
+    "pointsEarned": 35,
+    "playedAt": "2026-05-31T16:55:51.983Z"
+  },
+  {
+    "id": "1bef1610-07f3-4116-8a85-3cddae191e80",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "gameId": "cricket",
+    "score": 2,
+    "pointsEarned": 10,
+    "playedAt": "2026-05-31T16:55:39.504Z"
+  },
+  {
+    "id": "a68daa76-96a7-47f6-bfbd-fbb1369695b5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "gameId": "cricket",
+    "score": 12,
+    "pointsEarned": 11,
+    "playedAt": "2026-05-31T16:55:36.053Z"
+  },
+  {
+    "id": "acda806e-003c-4995-8685-7b254cd65cde",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "gameId": "room-runner",
+    "score": 10,
+    "pointsEarned": 21,
+    "playedAt": "2026-05-31T16:55:25.092Z"
+  },
+  {
+    "id": "3ac17bfc-58c0-4dad-8580-a9975b37b39f",
+    "userId": "00eb0f68-154b-48b0-b090-e2e9c60afecf",
+    "gameId": "room-runner",
+    "score": 15,
+    "pointsEarned": 21,
+    "playedAt": "2026-05-31T12:17:59.944Z"
+  }
+]

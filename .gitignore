@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build
+frontend/dist/
+frontend/dist-ssr/
+*.local
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+**/credentials*.json
+
+# Uploads (user-generated)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs & OS
+logs
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Misc
+*.tmp
+*.temp
+.cache/

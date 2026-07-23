@@ -1,0 +1,122 @@
+[
+  {
+    "id": "cfb358bf-df56-4698-a353-dbb7e6026831",
+    "roomId": "7671eb3c-36b2-45fd-9f71-610afbd222ac",
+    "userId": "admin-001",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "Namaste! Thanks for your interest in \"hs\". Feel free to ask about rent, deposit, amenities, or visit timing. I typically reply within a few hours.",
+    "createdAt": "2026-05-31T16:37:57.807Z"
+  },
+  {
+    "id": "f2262492-9109-4d1e-ad36-a23bbad87032",
+    "roomId": "7671eb3c-36b2-45fd-9f71-610afbd222ac",
+    "userId": "admin-001",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "tenant",
+    "senderName": "SmartRoooms Admin",
+    "text": "hello",
+    "createdAt": "2026-05-31T16:42:16.707Z"
+  },
+  {
+    "id": "60ed8331-822c-436f-bcbb-81e0b2fd5efb",
+    "roomId": "7671eb3c-36b2-45fd-9f71-610afbd222ac",
+    "userId": "admin-001",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "Got your message! For immediate help you can also tap Contact Now or use FREE Book Now on the listing. Visit scheduling can be arranged — zero commission on SmartRoooms.",
+    "createdAt": "2026-05-31T16:42:16.707Z"
+  },
+  {
+    "id": "c701cc10-b205-47cd-8240-e621ccccfbd3",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "Namaste! Thanks for your interest in \"ROOMS FOR RENT\". Feel free to ask about rent, deposit, amenities, or visit timing. I typically reply within a few hours.",
+    "createdAt": "2026-05-31T16:56:55.424Z"
+  },
+  {
+    "id": "2660b20a-b337-4a47-be36-8ef21be857a6",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "tenant",
+    "senderName": "Ishant Goyal",
+    "text": "hello",
+    "createdAt": "2026-05-31T16:57:03.782Z"
+  },
+  {
+    "id": "c8cb9c70-9f2e-4e82-a495-39f0e8e1339c",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "tenant",
+    "senderName": "Ishant Goyal",
+    "text": "mene room dekha hai",
+    "createdAt": "2026-05-31T16:57:11.599Z"
+  },
+  {
+    "id": "107df6c2-2c67-4d02-a8c9-dd80ca0829cc",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "tenant",
+    "senderName": "Ishant Goyal",
+    "text": "kitne tak ka mil jayega",
+    "createdAt": "2026-05-31T16:57:24.727Z"
+  },
+  {
+    "id": "2fd67e3b-aa09-4334-842c-73e5204bad3f",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "tenant",
+    "senderName": "Ishant Goyal",
+    "text": "kisi jagah hai",
+    "createdAt": "2026-05-31T16:57:39.271Z"
+  },
+  {
+    "id": "7e7abd96-a610-4ad6-aa63-3d42a36fa21d",
+    "roomId": "7671eb3c-36b2-45fd-9f71-610afbd222ac",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "Namaste! Thanks for your interest in \"hs\". Feel free to ask about rent, deposit, amenities, or visit timing. I typically reply within a few hours.",
+    "createdAt": "2026-05-31T16:57:50.791Z"
+  },
+  {
+    "id": "5b7dc3f5-d0b4-4c73-b2d2-33463a10d8b7",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "hile",
+    "createdAt": "2026-05-31T17:11:31.559Z"
+  },
+  {
+    "id": "b39cdec0-a06a-4680-a863-43b97e51a75b",
+    "roomId": "c5dfe86b-7e2f-48e2-bb24-1a77e7d2ccf5",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "lena hai to looo",
+    "createdAt": "2026-05-31T17:11:38.952Z"
+  },
+  {
+    "id": "eb372290-0d2c-4fdb-b20e-02f203c0344c",
+    "roomId": "7671eb3c-36b2-45fd-9f71-610afbd222ac",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "ownerId": "18596129-c89c-4944-8181-588a5fa97737",
+    "fromRole": "owner",
+    "senderName": "gaurav",
+    "text": "hello",
+    "createdAt": "2026-05-31T17:12:01.860Z"
+  }
+]

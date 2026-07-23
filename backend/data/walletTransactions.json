@@ -1,0 +1,435 @@
+[
+  {
+    "id": "ea76dfc2-bc57-4921-814e-5431b2d1cd01",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "redeem",
+    "pointsUsed": 500,
+    "cashAdded": 50,
+    "reason": "Redeemed 500 points for ₹50 rent credit",
+    "balanceAfter": 50,
+    "pointsAfter": 220,
+    "createdAt": "2026-05-31T17:12:09.645Z"
+  },
+  {
+    "id": "a2857cca-4a8b-449d-a48b-02f41ef092b8",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "redeem",
+    "pointsUsed": 400,
+    "cashAdded": 150,
+    "reason": "Redeemed 400 points for ₹150 rent credit",
+    "balanceAfter": 300,
+    "pointsAfter": 262,
+    "createdAt": "2026-05-31T17:00:50.021Z"
+  },
+  {
+    "id": "c0eaf007-19fc-4580-891d-1a151c18233b",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "redeem",
+    "pointsUsed": 400,
+    "cashAdded": 150,
+    "reason": "Redeemed 400 points for ₹150 rent credit",
+    "balanceAfter": 150,
+    "pointsAfter": 662,
+    "createdAt": "2026-05-31T17:00:48.464Z"
+  },
+  {
+    "id": "fc4b2b3b-956b-48ba-8fcc-7067d42d5d80",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 35,
+    "reason": "Played cake-cut game — score: 200",
+    "balanceAfter": 0,
+    "pointsAfter": 1062,
+    "createdAt": "2026-05-31T16:55:52.022Z"
+  },
+  {
+    "id": "2fe86734-a0ea-4b93-9c41-998d975d8f96",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 35,
+    "reason": "Played cake-cut game — score: 200",
+    "balanceAfter": 0,
+    "pointsAfter": 1027,
+    "createdAt": "2026-05-31T16:55:51.978Z"
+  },
+  {
+    "id": "5ba92b44-c628-4be9-945d-aa0b8d8286b7",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 10,
+    "reason": "Played cricket game — score: 2",
+    "balanceAfter": 0,
+    "pointsAfter": 992,
+    "createdAt": "2026-05-31T16:55:39.499Z"
+  },
+  {
+    "id": "09290378-8dae-469a-b643-d65ee050ecec",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 11,
+    "reason": "Played cricket game — score: 12",
+    "balanceAfter": 0,
+    "pointsAfter": 982,
+    "createdAt": "2026-05-31T16:55:36.049Z"
+  },
+  {
+    "id": "aef01b15-a698-4939-99d8-748d9adc74dd",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 21,
+    "reason": "Played room-runner game — score: 10",
+    "balanceAfter": 0,
+    "pointsAfter": 971,
+    "createdAt": "2026-05-31T16:55:25.081Z"
+  },
+  {
+    "id": "2d17e373-7725-4faa-9b33-1e19778398d3",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 40,
+    "reason": "Posted new room listing",
+    "balanceAfter": 0,
+    "pointsAfter": 720,
+    "createdAt": "2026-05-31T16:48:41.654Z"
+  },
+  {
+    "id": "841a6daa-1fa2-4b80-85c0-601c4006b078",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 950,
+    "createdAt": "2026-05-31T16:15:47.236Z"
+  },
+  {
+    "id": "545f0ce3-4106-4f27-8c59-9cd1f59ce012",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 900,
+    "createdAt": "2026-05-31T16:15:47.231Z"
+  },
+  {
+    "id": "6f7d0983-83dc-44bc-b251-f7d668f417b4",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 680,
+    "createdAt": "2026-05-31T16:15:47.226Z"
+  },
+  {
+    "id": "4576d05e-88f1-4637-a1b5-2c92bbc42172",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 900,
+    "createdAt": "2026-05-31T16:15:47.221Z"
+  },
+  {
+    "id": "ae878847-0650-4062-b8da-37ff4a986ba0",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 850,
+    "createdAt": "2026-05-31T16:15:47.024Z"
+  },
+  {
+    "id": "20b728ee-ebd0-465d-b553-068b21dfd1f6",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 800,
+    "createdAt": "2026-05-31T16:15:47.019Z"
+  },
+  {
+    "id": "901d9739-723a-40a7-9c8e-b5222137f83a",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 630,
+    "createdAt": "2026-05-31T16:15:47.016Z"
+  },
+  {
+    "id": "81553c35-6650-4e9f-b487-7c26170c4139",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 800,
+    "createdAt": "2026-05-31T16:15:47.011Z"
+  },
+  {
+    "id": "07a8e226-f308-43eb-ae19-057db1e5eb7c",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 750,
+    "createdAt": "2026-05-31T16:15:44.419Z"
+  },
+  {
+    "id": "208aca72-7fa2-427a-822a-16357c7328e0",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 700,
+    "createdAt": "2026-05-31T16:15:44.417Z"
+  },
+  {
+    "id": "0e1ae773-e4d0-4b4e-adb7-c3c9341b9459",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 580,
+    "createdAt": "2026-05-31T16:15:44.414Z"
+  },
+  {
+    "id": "f4b44b91-d13a-4101-8802-8d2c42af1ef4",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 700,
+    "createdAt": "2026-05-31T16:15:44.410Z"
+  },
+  {
+    "id": "9677ebb0-d6bf-4713-a790-011b2d6f48a7",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 650,
+    "createdAt": "2026-05-31T16:15:37.264Z"
+  },
+  {
+    "id": "79750690-3f25-4c3a-983e-6a0138cda869",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 600,
+    "createdAt": "2026-05-31T16:15:37.252Z"
+  },
+  {
+    "id": "68619196-7e4c-450a-bd3e-3de39daf395b",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 530,
+    "createdAt": "2026-05-31T16:15:37.242Z"
+  },
+  {
+    "id": "e77df842-291f-43a7-97bc-7e2cbcff9876",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 600,
+    "createdAt": "2026-05-31T16:15:37.224Z"
+  },
+  {
+    "id": "f4cf2f04-f92b-4734-8f15-c2cff509d10f",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 550,
+    "createdAt": "2026-05-31T16:15:35.246Z"
+  },
+  {
+    "id": "8f154ef2-3ca4-44dc-879f-21f038804bfa",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 500,
+    "createdAt": "2026-05-31T16:15:35.238Z"
+  },
+  {
+    "id": "ba44d755-03f3-4386-af6a-21690d38f330",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 480,
+    "createdAt": "2026-05-31T16:15:35.222Z"
+  },
+  {
+    "id": "7d77b203-e9bc-4d24-8939-f875c168aa66",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 500,
+    "createdAt": "2026-05-31T16:15:35.212Z"
+  },
+  {
+    "id": "7c7e6366-b9e7-443e-8d81-9b9c8414376b",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 450,
+    "createdAt": "2026-05-31T16:15:34.195Z"
+  },
+  {
+    "id": "acba5dc4-3cef-407f-afd0-a4e94518e1f3",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 400,
+    "createdAt": "2026-05-31T16:15:34.185Z"
+  },
+  {
+    "id": "2198fe13-797d-4afa-a57d-688e7a216e14",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 430,
+    "createdAt": "2026-05-31T16:15:34.176Z"
+  },
+  {
+    "id": "4795200f-7d7d-4148-808e-0367e492c895",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 400,
+    "createdAt": "2026-05-31T16:15:34.165Z"
+  },
+  {
+    "id": "d0de1981-544a-4c6d-aa7b-b36bea6cf449",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Booked pg — hs",
+    "balanceAfter": 0,
+    "pointsAfter": 350,
+    "createdAt": "2026-05-31T16:15:29.098Z"
+  },
+  {
+    "id": "a6bff676-d080-4645-9cc8-c452fc1dd0c9",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "cash",
+    "amount": 0,
+    "reason": "",
+    "balanceAfter": 0,
+    "pointsAfter": 300,
+    "createdAt": "2026-05-31T16:15:29.084Z"
+  },
+  {
+    "id": "2c562818-3fde-4ec0-90fe-d33cade75573",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent received via SmartRoooms",
+    "balanceAfter": 0,
+    "pointsAfter": 380,
+    "createdAt": "2026-05-31T16:15:29.073Z"
+  },
+  {
+    "id": "89c58dc0-1c5e-4998-9e3b-72714294dbdc",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 50,
+    "reason": "Rent payment completed",
+    "balanceAfter": 0,
+    "pointsAfter": 300,
+    "createdAt": "2026-05-31T16:15:29.059Z"
+  },
+  {
+    "id": "b30bb342-d2b7-4c56-a665-c643a5a87308",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 40,
+    "reason": "Posted new room listing",
+    "balanceAfter": 0,
+    "pointsAfter": 330,
+    "createdAt": "2026-05-31T16:13:14.154Z"
+  },
+  {
+    "id": "ec769385-1f3a-4882-a619-076a81b00193",
+    "userId": "00eb0f68-154b-48b0-b090-e2e9c60afecf",
+    "type": "points",
+    "amount": 21,
+    "reason": "Played room-runner game — score: 15",
+    "balanceAfter": 0,
+    "pointsAfter": 271,
+    "createdAt": "2026-05-31T12:17:59.935Z"
+  },
+  {
+    "id": "48d60c8b-4d3a-49af-84f2-ce41345c376b",
+    "userId": "00eb0f68-154b-48b0-b090-e2e9c60afecf",
+    "type": "points",
+    "amount": 250,
+    "reason": "Welcome bonus on registration",
+    "balanceAfter": 0,
+    "pointsAfter": 250,
+    "createdAt": "2026-05-31T12:17:37.507Z"
+  },
+  {
+    "id": "aa15393c-2162-4910-b09c-49d7c43a498a",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 40,
+    "reason": "Posted new room listing",
+    "balanceAfter": 0,
+    "pointsAfter": 290,
+    "createdAt": "2026-05-31T11:50:09.504Z"
+  },
+  {
+    "id": "a747f90a-3026-440f-9b56-f130f9c3340c",
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "type": "points",
+    "amount": 250,
+    "reason": "Welcome bonus on registration",
+    "balanceAfter": 0,
+    "pointsAfter": 250,
+    "createdAt": "2026-05-31T11:48:40.330Z"
+  },
+  {
+    "id": "8d236977-9d17-473f-9a94-a6a8c69d845b",
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "type": "points",
+    "amount": 250,
+    "reason": "Welcome bonus on registration",
+    "balanceAfter": 0,
+    "pointsAfter": 250,
+    "createdAt": "2026-05-31T11:33:40.782Z"
+  }
+]

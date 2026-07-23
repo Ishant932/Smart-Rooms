@@ -1,0 +1,38 @@
+[
+  {
+    "userId": "admin-001",
+    "balance": 0,
+    "points": 0,
+    "referralCode": "ADMIN2026",
+    "referredBy": null,
+    "totalEarned": 0,
+    "totalSpent": 0
+  },
+  {
+    "userId": "61331136-ae73-401d-9f4f-a26c94a2d3f4",
+    "balance": 300,
+    "points": 262,
+    "referralCode": "ISHAHG1Q",
+    "referredBy": null,
+    "totalEarned": 0,
+    "totalSpent": 0
+  },
+  {
+    "userId": "18596129-c89c-4944-8181-588a5fa97737",
+    "balance": 50,
+    "points": 220,
+    "referralCode": "GAURCSAZ",
+    "referredBy": null,
+    "totalEarned": 0,
+    "totalSpent": 0
+  },
+  {
+    "userId": "00eb0f68-154b-48b0-b090-e2e9c60afecf",
+    "balance": 0,
+    "points": 271,
+    "referralCode": "GAUDV533",
+    "referredBy": null,
+    "totalEarned": 0,
+    "totalSpent": 0
+  }
+]

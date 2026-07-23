@@ -1,0 +1,21 @@
+[
+  {
+    "id": "b1289ac0-0a68-4c95-b443-72a1fcc63f0b",
+    "userId": "00eb0f68-154b-48b0-b090-e2e9c60afecf",
+    "userName": "gaudg jsdh",
+    "userEmail": "ishantgiyal@jdjd",
+    "userPhone": "5465555555",
+    "type": "shared-room",
+    "area": "Malviya Nagar",
+    "budget": 54,
+    "moveInDate": "",
+    "gender": "any",
+    "facilities": [
+      "Meals"
+    ],
+    "notes": "",
+    "city": "Jaipur",
+    "status": "matched",
+    "createdAt": "2026-05-31T12:19:47.891Z"
+  }
+]
