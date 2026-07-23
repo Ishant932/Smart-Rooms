@@ -1,5 +1,13 @@
 const { Resend } = require('resend');
 const nodemailer = require('nodemailer');
+const dns = require('dns');
+
+// Prefer IPv4 — Railway/Gmail often fail on IPv6 SMTP (ENETUNREACH)
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch {
+  /* ignore on older Node */
+}
 
 function getResend() {
   return process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -47,20 +55,24 @@ async function sendViaResend({ to, name, otp }) {
   return { provider: 'resend', id: data?.id };
 }
 
-async function sendViaSmtp({ to, name, otp }) {
-  const host = process.env.SMTP_HOST;
+function smtpConfigured() {
   const user = process.env.SMTP_USER || process.env.GMAIL_USER;
   const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
-  const port = Number(process.env.SMTP_PORT || 587);
-  if (!host || !user || !pass) return null;
+  const host = process.env.SMTP_HOST || (pass ? 'smtp.gmail.com' : '');
+  return Boolean(host && user && pass);
+}
 
-  const from = process.env.SMTP_FROM || process.env.RESEND_FROM || `SmartRoooms <${user}>`;
-  const content = buildOtpEmail({ name, otp });
+async function sendWithTransport({ host, port, secure, user, pass, from, to, content }) {
   const transporter = nodemailer.createTransport({
     host,
     port,
-    secure: port === 465,
+    secure,
     auth: { user, pass },
+    family: 4, // force IPv4
+    connectionTimeout: 20000,
+    greetingTimeout: 20000,
+    socketTimeout: 25000,
+    tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
   });
 
   const info = await transporter.sendMail({
@@ -71,18 +83,54 @@ async function sendViaSmtp({ to, name, otp }) {
     text: content.text,
   });
 
-  return { provider: 'smtp', id: info.messageId };
+  return { provider: 'smtp', id: info.messageId, port };
+}
+
+async function sendViaSmtp({ to, name, otp }) {
+  if (!smtpConfigured()) return null;
+
+  const user = process.env.SMTP_USER || process.env.GMAIL_USER;
+  const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
+  const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+  const from = process.env.SMTP_FROM || process.env.RESEND_FROM || `SmartRoooms <${user}>`;
+  const content = buildOtpEmail({ name, otp });
+
+  // Try SSL 465 first (often works better on cloud hosts), then STARTTLS 587
+  const attempts = [
+    { port: Number(process.env.SMTP_PORT_SSL || 465), secure: true },
+    { port: Number(process.env.SMTP_PORT || 587), secure: false },
+  ];
+
+  let lastError;
+  for (const attempt of attempts) {
+    try {
+      return await sendWithTransport({
+        host,
+        port: attempt.port,
+        secure: attempt.secure,
+        user,
+        pass,
+        from,
+        to,
+        content,
+      });
+    } catch (err) {
+      lastError = err;
+      console.error(`[email] SMTP ${host}:${attempt.port} failed:`, err.message);
+    }
+  }
+
+  throw lastError || new Error('SMTP send failed');
 }
 
 /**
  * Sends OTP email to the user's real inbox.
- * Prefers Resend (RESEND_API_KEY). Falls back to SMTP/Gmail if configured.
+ * Prefers Gmail/SMTP (works without custom domain). Falls back to Resend.
  */
 async function sendPasswordResetOtp({ to, name, otp }) {
   const providers = [];
 
-  // Prefer SMTP/Gmail when configured — can deliver to any recipient without Resend domain.
-  if (process.env.SMTP_HOST || process.env.GMAIL_APP_PASSWORD) {
+  if (smtpConfigured()) {
     providers.push(() => sendViaSmtp({ to, name, otp }));
   }
   if (process.env.RESEND_API_KEY) {
@@ -90,7 +138,7 @@ async function sendPasswordResetOtp({ to, name, otp }) {
   }
 
   if (!providers.length) {
-    const err = new Error('Email service not configured (set RESEND_API_KEY or GMAIL_APP_PASSWORD/SMTP_*)');
+    const err = new Error('Email service not configured (set GMAIL_APP_PASSWORD or RESEND_API_KEY)');
     err.code = 'EMAIL_NOT_CONFIGURED';
     throw err;
   }
@@ -102,7 +150,7 @@ async function sendPasswordResetOtp({ to, name, otp }) {
       if (result) return result;
     } catch (err) {
       lastError = err;
-      console.error(`[email] provider failed:`, err.message);
+      console.error('[email] provider failed:', err.message);
     }
   }
 
