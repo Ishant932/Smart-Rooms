@@ -215,7 +215,7 @@ async function requestPasswordReset(email) {
       console.warn(`[auth] Email delivery failed — returning inline OTP for ${normalized}`);
     } else if (domainBlocked) {
       return {
-        error: 'Cannot email OTP yet: Resend needs a verified domain (or configure Gmail SMTP). OTP was not shown on screen.',
+        error: 'Could not send OTP email from the server. Gmail SMTP is blocked on Railway — deploy the free Gmail Apps Script relay (see scripts/gmail-apps-script.js) or verify a Resend domain.',
       };
     } else {
       return { error: 'Could not send OTP email to your inbox. Please try again in a minute.' };

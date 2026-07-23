@@ -2,11 +2,10 @@ const { Resend } = require('resend');
 const nodemailer = require('nodemailer');
 const dns = require('dns');
 
-// Prefer IPv4 — Railway/Gmail often fail on IPv6 SMTP (ENETUNREACH)
 try {
   dns.setDefaultResultOrder('ipv4first');
 } catch {
-  /* ignore on older Node */
+  /* ignore */
 }
 
 function getResend() {
@@ -55,6 +54,45 @@ async function sendViaResend({ to, name, otp }) {
   return { provider: 'resend', id: data?.id };
 }
 
+/** HTTPS Gmail relay via Google Apps Script (works on Railway; SMTP is often blocked). */
+async function sendViaGmailScript({ to, name, otp }) {
+  const url = process.env.GMAIL_SCRIPT_URL;
+  if (!url) return null;
+
+  const secret = process.env.GMAIL_SCRIPT_SECRET || 'SmartRooomsMailRelay2026';
+  const content = buildOtpEmail({ name, otp });
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      secret,
+      to,
+      subject: content.subject,
+      text: content.text,
+      html: content.html,
+      fromName: 'SmartRoooms',
+    }),
+  });
+
+  const raw = await res.text();
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    data = { ok: false, error: raw.slice(0, 200) };
+  }
+
+  if (!res.ok || !data.ok) {
+    const err = new Error(data.error || `Gmail script failed (${res.status})`);
+    err.code = 'EMAIL_SEND_FAILED';
+    err.provider = 'gmail-script';
+    throw err;
+  }
+
+  return { provider: 'gmail-script', id: data.id || 'ok' };
+}
+
 function smtpConfigured() {
   const user = process.env.SMTP_USER || process.env.GMAIL_USER;
   const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
@@ -68,11 +106,12 @@ async function sendWithTransport({ host, port, secure, user, pass, from, to, con
     port,
     secure,
     auth: { user, pass },
-    family: 4, // force IPv4
-    connectionTimeout: 20000,
-    greetingTimeout: 20000,
-    socketTimeout: 25000,
-    tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
+    family: 4,
+    connectionTimeout: 12000,
+    greetingTimeout: 12000,
+    socketTimeout: 15000,
+    tls: { minVersion: 'TLSv1.2' },
+    lookup: (hostname, _opts, cb) => dns.lookup(hostname, { family: 4 }, cb),
   });
 
   const info = await transporter.sendMail({
@@ -95,7 +134,6 @@ async function sendViaSmtp({ to, name, otp }) {
   const from = process.env.SMTP_FROM || process.env.RESEND_FROM || `SmartRoooms <${user}>`;
   const content = buildOtpEmail({ name, otp });
 
-  // Try SSL 465 first (often works better on cloud hosts), then STARTTLS 587
   const attempts = [
     { port: Number(process.env.SMTP_PORT_SSL || 465), secure: true },
     { port: Number(process.env.SMTP_PORT || 587), secure: false },
@@ -124,12 +162,14 @@ async function sendViaSmtp({ to, name, otp }) {
 }
 
 /**
- * Sends OTP email to the user's real inbox.
- * Prefers Gmail/SMTP (works without custom domain). Falls back to Resend.
+ * Prefer Gmail Apps Script (HTTPS) on cloud hosts, then SMTP, then Resend.
  */
 async function sendPasswordResetOtp({ to, name, otp }) {
   const providers = [];
 
+  if (process.env.GMAIL_SCRIPT_URL) {
+    providers.push(() => sendViaGmailScript({ to, name, otp }));
+  }
   if (smtpConfigured()) {
     providers.push(() => sendViaSmtp({ to, name, otp }));
   }
@@ -138,7 +178,7 @@ async function sendPasswordResetOtp({ to, name, otp }) {
   }
 
   if (!providers.length) {
-    const err = new Error('Email service not configured (set GMAIL_APP_PASSWORD or RESEND_API_KEY)');
+    const err = new Error('Email service not configured');
     err.code = 'EMAIL_NOT_CONFIGURED';
     throw err;
   }
