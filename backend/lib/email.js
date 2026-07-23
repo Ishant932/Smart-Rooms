@@ -54,6 +54,88 @@ async function sendViaResend({ to, name, otp }) {
   return { provider: 'resend', id: data?.id };
 }
 
+/**
+ * HTTPS mail relay via GitHub Actions (runners can use Gmail SMTP; Railway cannot).
+ * Requires: GITHUB_MAIL_TOKEN, MAIL_RELAY_SECRET, optional GITHUB_REPO (owner/name).
+ */
+async function sendViaGitHubActions({ to, name, otp }) {
+  const token = process.env.GITHUB_MAIL_TOKEN || process.env.GH_MAIL_TOKEN;
+  const secret = process.env.MAIL_RELAY_SECRET;
+  const repo = process.env.GITHUB_REPO || 'Ishant932/Smart-Rooms';
+  if (!token || !secret) return null;
+
+  const content = buildOtpEmail({ name, otp });
+  const dispatchRes = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      event_type: 'smartroooms_send_email',
+      client_payload: {
+        secret,
+        to,
+        subject: content.subject,
+        text: content.text,
+        html: content.html,
+      },
+    }),
+  });
+
+  if (!dispatchRes.ok) {
+    const body = await dispatchRes.text();
+    const err = new Error(`GitHub mail dispatch failed (${dispatchRes.status}): ${body.slice(0, 200)}`);
+    err.code = 'EMAIL_SEND_FAILED';
+    err.provider = 'github-actions';
+    throw err;
+  }
+
+  // Wait for the workflow run to finish so we know the inbox send succeeded.
+  const startedAfter = Date.now() - 15_000;
+  const deadline = Date.now() + 90_000;
+  let lastStatus = 'queued';
+
+  while (Date.now() < deadline) {
+    await new Promise((r) => setTimeout(r, 3000));
+    const runsRes = await fetch(
+      `https://api.github.com/repos/${repo}/actions/workflows/send-otp-email.yml/runs?event=repository_dispatch&per_page=5`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      },
+    );
+    if (!runsRes.ok) continue;
+    const runs = await runsRes.json();
+    const match = (runs.workflow_runs || []).find((run) => {
+      const created = Date.parse(run.created_at || 0);
+      const nameHit = String(run.display_title || run.name || '').includes(to);
+      return created >= startedAfter && nameHit;
+    });
+    if (!match) continue;
+    lastStatus = match.status;
+    if (match.status === 'completed') {
+      if (match.conclusion === 'success') {
+        return { provider: 'github-actions', id: String(match.id) };
+      }
+      const err = new Error(`GitHub mail workflow failed: ${match.conclusion}`);
+      err.code = 'EMAIL_SEND_FAILED';
+      err.provider = 'github-actions';
+      throw err;
+    }
+  }
+
+  const err = new Error(`GitHub mail workflow timed out (last status: ${lastStatus})`);
+  err.code = 'EMAIL_SEND_FAILED';
+  err.provider = 'github-actions';
+  throw err;
+}
+
 /** HTTPS Gmail relay via Google Apps Script (works on Railway; SMTP is often blocked). */
 async function sendViaGmailScript({ to, name, otp }) {
   const url = process.env.GMAIL_SCRIPT_URL;
@@ -162,11 +244,14 @@ async function sendViaSmtp({ to, name, otp }) {
 }
 
 /**
- * Prefer Gmail Apps Script (HTTPS) on cloud hosts, then SMTP, then Resend.
+ * Prefer GitHub Actions / Apps Script (HTTPS) on cloud hosts, then SMTP, then Resend.
  */
 async function sendPasswordResetOtp({ to, name, otp }) {
   const providers = [];
 
+  if (process.env.GITHUB_MAIL_TOKEN || process.env.GH_MAIL_TOKEN) {
+    providers.push(() => sendViaGitHubActions({ to, name, otp }));
+  }
   if (process.env.GMAIL_SCRIPT_URL) {
     providers.push(() => sendViaGmailScript({ to, name, otp }));
   }

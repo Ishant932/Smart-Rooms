@@ -12,6 +12,9 @@ frontend/dist-ssr/
 .env.*
 !.env.example
 **/credentials*.json
+backend/.gmail-oauth.json
+backend/.mail-relay-secret
+scripts/apps-script-relay/.clasp.json
 
 # Uploads (user-generated)
 backend/uploads/*
