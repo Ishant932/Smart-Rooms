@@ -199,8 +199,26 @@ async function requestPasswordReset(email) {
     if (err.code === 'EMAIL_NOT_CONFIGURED') {
       return { error: 'Email service is not configured. Contact admin.' };
     }
+
     const msg = String(err.message || '');
-    if (/verify a domain|only send testing emails/i.test(msg)) {
+    const domainBlocked = /verify a domain|only send testing emails/i.test(msg);
+    const allowInline = String(process.env.OTP_INLINE_FALLBACK || 'true').toLowerCase() !== 'false';
+
+    // Keep password reset usable when Resend can't deliver (no verified domain / network / send limits).
+    if (allowInline) {
+      console.warn(`[auth] Email delivery failed — returning inline OTP for ${normalized}`);
+      return {
+        message: domainBlocked
+          ? 'Email provider cannot deliver to this address yet (domain not verified). Use the OTP shown below — it expires in 10 minutes.'
+          : 'We could not deliver the email right now. Use the OTP shown below — it expires in 10 minutes.',
+        email: normalized,
+        expiresInMinutes: 10,
+        otp,
+        delivery: 'inline',
+      };
+    }
+
+    if (domainBlocked) {
       return {
         error: 'Resend can only email the account owner until you verify a domain at resend.com/domains. After verifying, set RESEND_FROM to an address on that domain.',
       };

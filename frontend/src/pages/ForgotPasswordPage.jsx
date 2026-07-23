@@ -43,6 +43,10 @@ export default function ForgotPasswordPage() {
     try {
       const data = await forgotPassword(email.trim());
       setInfo(data.message || 'OTP sent if the account exists.');
+      if (data.otp) {
+        setOtp(String(data.otp));
+        setInfo(`${data.message} Your OTP is ${data.otp}`);
+      }
       setStep('reset');
     } catch (err) {
       setError(err.response?.data?.error || 'Could not send OTP. Try again.');
@@ -90,9 +94,9 @@ export default function ForgotPasswordPage() {
       sideTitle="Secure password recovery"
       sidePoints={[
         'Works for tenants, owners & admin',
-        '6-digit OTP emailed via Resend',
+        '6-digit OTP via Resend email',
         'OTP expires in 10 minutes',
-        'Max 5 attempts per code',
+        'If email delivery is blocked, OTP is shown on screen once',
       ]}
       footer={
         <div className="mt-8 space-y-3 border-t border-gray-100 pt-6 text-center text-sm text-gray-500">
