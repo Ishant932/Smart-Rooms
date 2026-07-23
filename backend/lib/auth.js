@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { read, write } = require('./db');
+const { read, write, writeAndFlush } = require('./db');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'smartroooms-dev-secret-2026';
 const SIGNUP_POINTS = 80;
@@ -157,6 +157,10 @@ function savePasswordResets(list) {
   write('passwordResets.json', list);
 }
 
+async function savePasswordResetsFlush(list) {
+  await writeAndFlush('passwordResets.json', list);
+}
+
 async function requestPasswordReset(email) {
   const normalized = String(email || '').trim().toLowerCase();
   if (!normalized || !normalized.includes('@')) {
@@ -185,12 +189,13 @@ async function requestPasswordReset(email) {
     email: normalized,
     userId: user.id,
     otpHash,
+    otpPlain: otp, // short-lived; removed after successful reset
     attempts: 0,
     expiresAt,
     createdAt: new Date().toISOString(),
   });
-  savePasswordResets(list.slice(0, 200));
 
+  let delivery = 'email';
   try {
     const { sendPasswordResetOtp } = require('./email');
     await sendPasswordResetOtp({ to: normalized, name: user.name || user.firstName, otp });
@@ -204,32 +209,36 @@ async function requestPasswordReset(email) {
     const domainBlocked = /verify a domain|only send testing emails/i.test(msg);
     const allowInline = String(process.env.OTP_INLINE_FALLBACK || 'true').toLowerCase() !== 'false';
 
-    // Keep password reset usable when Resend can't deliver (no verified domain / network / send limits).
-    if (allowInline) {
-      console.warn(`[auth] Email delivery failed — returning inline OTP for ${normalized}`);
-      return {
-        message: domainBlocked
-          ? 'Email provider cannot deliver to this address yet (domain not verified). Use the OTP shown below — it expires in 10 minutes.'
-          : 'We could not deliver the email right now. Use the OTP shown below — it expires in 10 minutes.',
-        email: normalized,
-        expiresInMinutes: 10,
-        otp,
-        delivery: 'inline',
-      };
+    if (!allowInline) {
+      if (domainBlocked) {
+        return {
+          error: 'Resend can only email the account owner until you verify a domain at resend.com/domains.',
+        };
+      }
+      return { error: 'Could not send OTP email. Please try again in a minute.' };
     }
 
-    if (domainBlocked) {
-      return {
-        error: 'Resend can only email the account owner until you verify a domain at resend.com/domains. After verifying, set RESEND_FROM to an address on that domain.',
-      };
-    }
-    return { error: 'Could not send OTP email. Please try again in a minute.' };
+    delivery = 'inline';
+    console.warn(`[auth] Email delivery failed — returning inline OTP for ${normalized}`);
+  }
+
+  await savePasswordResetsFlush(list.slice(0, 200));
+
+  if (delivery === 'inline') {
+    return {
+      message: 'Enter this OTP with your new password to continue. Code expires in 10 minutes.',
+      email: normalized,
+      expiresInMinutes: 10,
+      otp,
+      delivery: 'inline',
+    };
   }
 
   return {
     message: 'OTP sent to your email. Enter the 6-digit code to reset your password.',
     email: normalized,
     expiresInMinutes: 10,
+    delivery: 'email',
   };
 }
 
@@ -259,18 +268,24 @@ async function resetPasswordWithOtp({ email, otp, newPassword }) {
     return { error: 'Too many attempts. Request a new OTP.' };
   }
 
-  const ok = await bcrypt.compare(code, record.otpHash);
+  const ok = record.otpPlain
+    ? String(record.otpPlain) === code
+    : await bcrypt.compare(code, record.otpHash);
   if (!ok) {
-    list[idx] = { ...record, attempts: (record.attempts || 0) + 1 };
-    savePasswordResets(list);
-    return { error: 'Invalid OTP. Check the code and try again.' };
+    // fallback to hash compare if plain mismatch (older records)
+    const hashOk = record.otpPlain ? await bcrypt.compare(code, record.otpHash) : false;
+    if (!hashOk) {
+      list[idx] = { ...record, attempts: (record.attempts || 0) + 1 };
+      savePasswordResets(list);
+      return { error: 'Invalid OTP. Request a new code and use the latest OTP shown.' };
+    }
   }
 
   const users = getUsers();
   const userIdx = users.findIndex((u) => u.id === record.userId || u.email.toLowerCase() === normalized);
   if (userIdx === -1) {
     list.splice(idx, 1);
-    savePasswordResets(list);
+    await savePasswordResetsFlush(list);
     return { error: 'User not found' };
   }
 
@@ -279,10 +294,10 @@ async function resetPasswordWithOtp({ email, otp, newPassword }) {
     password: await bcrypt.hash(newPassword, 10),
     passwordUpdatedAt: new Date().toISOString(),
   };
-  saveUsers(users);
+  await writeAndFlush('users.json', users);
 
   list.splice(idx, 1);
-  savePasswordResets(list);
+  await savePasswordResetsFlush(list);
 
   return { message: 'Password updated successfully. You can sign in with your new password.' };
 }

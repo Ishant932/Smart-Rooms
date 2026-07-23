@@ -86,6 +86,11 @@ function write(file, data) {
   queuePersist(file, payload);
 }
 
+async function writeAndFlush(file, data) {
+  write(file, data);
+  await flushDb();
+}
+
 async function initDb() {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
@@ -142,6 +147,7 @@ function isMongoReady() {
 module.exports = {
   read,
   write,
+  writeAndFlush,
   initDb,
   flushDb,
   closeDb,
