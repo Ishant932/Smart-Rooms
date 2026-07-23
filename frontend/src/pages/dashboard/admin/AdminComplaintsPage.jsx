@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { AlertCircle, Mail, Phone, Calendar, Trash2 } from 'lucide-react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getComplaints, updateComplaint, deleteAdminComplaint } from '../../../api/client';
 
 export default function AdminComplaintsPage() {
@@ -27,9 +28,17 @@ export default function AdminComplaintsPage() {
 
   return (
     <DashboardLayout role="admin" title="Tenant Complaints">
-      <p className="mb-4 text-sm text-gray-500">
-        Complaints filed by registered tenants appear here automatically. Update status and add admin notes.
-      </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-gray-500">
+          Complaints filed by registered tenants appear here automatically. Update status and add admin notes.
+        </p>
+        <DownloadCsvButton
+          filename="smartroooms-complaints"
+          rows={filtered.map((c) => ({
+            id: c.id, subject: c.subject || c.title, status: c.status, email: c.email || c.userEmail, createdAt: c.createdAt,
+          }))}
+        />
+      </div>
 
       <div className="mb-6 flex flex-wrap gap-2">
         {[

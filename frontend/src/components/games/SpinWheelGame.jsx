@@ -24,7 +24,7 @@ export default function SpinWheelGame() {
   };
 
   return (
-    <GameShell title="Spin Wheel" emoji="🎡" subtitle="Spin for quick low points!" gradient="from-violet-600 to-purple-900" delay={0.15} pointsHint="1–5 pts">
+    <GameShell title="Spin Wheel" emoji="🎡" subtitle="Spin for quick low points!" gradient="from-violet-600 to-purple-900" delay={0.15} pointsHint="1–3 pts">
       <div className="flex flex-col items-center">
         <motion.div
           animate={{ rotate: rotation }}

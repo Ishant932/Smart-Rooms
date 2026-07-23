@@ -55,7 +55,7 @@ export default function MemoryMatchGame() {
   };
 
   return (
-    <GameShell title="Room Memory" emoji="🧠" subtitle="Match pairs with fewer moves!" gradient="from-teal-600 to-emerald-900" delay={0.25} pointsHint="2–6 pts">
+    <GameShell title="Room Memory" emoji="🧠" subtitle="Match pairs with fewer moves!" gradient="from-teal-600 to-emerald-900" delay={0.25} pointsHint="1–3 pts">
       <p className="mb-2 text-center text-sm">Moves: {moves}</p>
       <div className="grid grid-cols-4 gap-2">
         {deck.map((c) => {

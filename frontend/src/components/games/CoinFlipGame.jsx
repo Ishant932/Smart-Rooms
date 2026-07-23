@@ -24,7 +24,7 @@ export default function CoinFlipGame() {
   };
 
   return (
-    <GameShell title="Coin Flip" emoji="🪙" subtitle="Heads or tails — double luck!" gradient="from-yellow-600 to-amber-800" delay={0.3} pointsHint="1–4 pts">
+    <GameShell title="Coin Flip" emoji="🪙" subtitle="Heads or tails — double luck!" gradient="from-yellow-600 to-amber-800" delay={0.3} pointsHint="1–2 pts">
       <div className="text-center">
         <motion.div
           animate={flipping ? { rotateY: [0, 360, 720, 1080] } : {}}

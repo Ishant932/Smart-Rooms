@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getAdminBookings, updateAdminBooking, deleteAdminBooking } from '../../../api/client';
 
 export default function AdminBookingsPage() {
@@ -23,8 +24,16 @@ export default function AdminBookingsPage() {
 
   return (
     <DashboardLayout role="admin" title="All Bookings">
-      <div className="mb-6 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-800 ring-1 ring-emerald-100">
-        <strong>Legacy bookings only</strong> — direct booking is disabled. Tenants connect via chat. Edit status or delete any record.
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-800 ring-1 ring-emerald-100">
+          <strong>Legacy bookings only</strong> — direct booking is disabled. Tenants connect via chat. Edit status or delete any record.
+        </div>
+        <DownloadCsvButton
+          filename="smartroooms-bookings"
+          rows={bookings.map((b) => ({
+            id: b.id, room: b.roomTitle, tenant: b.tenantName, type: b.type, rent: b.rentAmount, status: b.status,
+          }))}
+        />
       </div>
       <div className="space-y-3">
         {bookings.map((b, i) => (

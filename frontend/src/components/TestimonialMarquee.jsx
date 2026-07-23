@@ -65,15 +65,13 @@ const TESTIMONIALS = [
 ];
 
 function TestimonialStripCard({ t }) {
+  const initial = (t.name || '?').charAt(0).toUpperCase();
   return (
     <div className="testimonial-strip-card mx-4 flex w-[min(90vw,420px)] shrink-0 items-start gap-4 rounded-2xl border border-white/80 bg-white/95 p-5 shadow-lg shadow-brand-500/10 ring-1 ring-brand-100/60 backdrop-blur-sm">
       <div className="relative shrink-0">
-        <img
-          src={t.photo}
-          alt={t.name}
-          loading="lazy"
-          className="h-16 w-16 rounded-xl object-cover ring-2 ring-brand-200 ring-offset-2"
-        />
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 via-violet-500 to-rose-500 text-xl font-black text-white ring-2 ring-brand-200 ring-offset-2">
+          {initial}
+        </div>
         <Quote size={14} className="absolute -bottom-1 -right-1 rounded-full bg-brand-500 p-0.5 text-white" />
       </div>
       <div className="min-w-0 flex-1">
@@ -125,7 +123,7 @@ export default function TestimonialMarquee() {
 export function TrustStrip() {
   const items = [
     '✓ Zero Brokerage Forever', '✓ Owner-Posted Listings', '✓ Smart Wallet & Rewards',
-    '✓ 8 Play & Earn Games', '✓ Room Partner Matching', '✓ Admin-Verified Support',
+    '✓ 6 Play & Earn Games', '✓ Room Partner Matching', '✓ Ask Saathi AI',
     '✓ Jaipur Only — 12+ Areas', '✓ Boys & Girls PG', '✓ Previous Tenant Connect',
     '✓ Complaint Resolution', '✓ Refer & Earn', '✓ 500 pts = ₹50 Off Rent',
   ];

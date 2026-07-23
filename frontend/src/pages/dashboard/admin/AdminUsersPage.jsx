@@ -6,6 +6,7 @@ import {
   Trash2, Home, ExternalLink,
 } from 'lucide-react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import {
   getAdminUsers, updateAdminUser, updateAdminWallet, deleteAdminRoom, getAdminUserListings,
   deleteAdminUser,
@@ -138,9 +139,23 @@ export default function AdminUsersPage() {
 
   return (
     <DashboardLayout role="admin" title="Registered Users">
-      <p className="mb-4 text-sm text-gray-500">
-        Click an owner to view their listings and remove fake posts. Suspending an owner removes all their listings and blocks login.
-      </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-gray-500">
+          Click an owner to view their listings and remove fake posts. Suspending an owner removes all their listings and blocks login.
+        </p>
+        <DownloadCsvButton
+          filename="smartroooms-users"
+          rows={(users || []).map((u) => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            phone: u.phone,
+            role: u.role,
+            status: u.status || 'active',
+            createdAt: u.createdAt || '',
+          }))}
+        />
+      </div>
 
       {actionError && (
         <div className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200">

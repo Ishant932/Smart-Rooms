@@ -471,17 +471,12 @@ app.post('/api/wallet/pay-rent', authMiddleware, (req, res) => {
 
 // ─── GAMES ────────────────────────────────────────────────
 const GAME_REWARDS = {
-  cricket: { min: 4, max: 18 },
-  'cake-cut': { min: 5, max: 22 },
-  'room-runner': { min: 6, max: 28 },
-  'spin-wheel': { min: 1, max: 5 },
-  'tap-race': { min: 1, max: 4 },
-  'memory-match': { min: 2, max: 6 },
-  'dice-luck': { min: 1, max: 3 },
-  'color-match': { min: 2, max: 5 },
-  'number-guess': { min: 2, max: 8 },
-  'reaction-time': { min: 1, max: 6 },
-  'coin-flip': { min: 1, max: 4 },
+  'spin-wheel': { min: 1, max: 3 },
+  'tap-race': { min: 1, max: 2 },
+  'memory-match': { min: 1, max: 3 },
+  'dice-luck': { min: 1, max: 2 },
+  'reaction-time': { min: 1, max: 3 },
+  'coin-flip': { min: 1, max: 2 },
 };
 
 app.post('/api/games/:gameId/play', authMiddleware, (req, res) => {
@@ -1312,6 +1307,109 @@ app.patch('/api/admin/feedback/:id', authMiddleware, adminOnly, (req, res) => {
 
 app.get('/api/admin/service-bookings', authMiddleware, adminOnly, (_, res) => {
   res.json(read('serviceBookings.json', []));
+});
+
+// ─── SAATHI AI ────────────────────────────────────────────
+const { askSaathi } = require('./lib/saathi');
+app.post('/api/saathi/chat', (req, res) => {
+  const message = req.body?.message || req.body?.text || '';
+  res.json(askSaathi(message));
+});
+
+// ─── VOUCHERS ─────────────────────────────────────────────
+app.get('/api/admin/vouchers', authMiddleware, adminOnly, (_, res) => {
+  const list = read('vouchers.json', []);
+  res.json(list.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)));
+});
+
+app.post('/api/admin/vouchers', authMiddleware, adminOnly, (req, res) => {
+  const { code, title, description, discountType, discountValue, minPoints, maxUses, audience, active } = req.body || {};
+  const normalized = String(code || '').trim().toUpperCase();
+  if (!normalized || !title) return res.status(400).json({ error: 'Code and title required' });
+  const list = read('vouchers.json', []);
+  if (list.some((v) => v.code === normalized)) return res.status(400).json({ error: 'Code already exists' });
+  const entry = {
+    id: uuidv4(),
+    code: normalized,
+    title: String(title).trim(),
+    description: String(description || '').trim(),
+    discountType: ['flat', 'percent', 'points'].includes(discountType) ? discountType : 'flat',
+    discountValue: Number(discountValue) || 0,
+    minPoints: Number(minPoints) || 0,
+    maxUses: Number(maxUses) || 0,
+    usedCount: 0,
+    audience: ['all', 'tenant', 'owner'].includes(audience) ? audience : 'all',
+    active: active !== false,
+    createdAt: new Date().toISOString(),
+  };
+  list.unshift(entry);
+  write('vouchers.json', list);
+  res.status(201).json(entry);
+});
+
+app.patch('/api/admin/vouchers/:id', authMiddleware, adminOnly, (req, res) => {
+  const list = read('vouchers.json', []);
+  const idx = list.findIndex((v) => v.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Not found' });
+  const allowed = ['title', 'description', 'discountType', 'discountValue', 'minPoints', 'maxUses', 'audience', 'active'];
+  allowed.forEach((k) => {
+    if (req.body[k] !== undefined) list[idx][k] = req.body[k];
+  });
+  list[idx].updatedAt = new Date().toISOString();
+  write('vouchers.json', list);
+  res.json(list[idx]);
+});
+
+app.delete('/api/admin/vouchers/:id', authMiddleware, adminOnly, (req, res) => {
+  const list = read('vouchers.json', []);
+  const next = list.filter((v) => v.id !== req.params.id);
+  if (next.length === list.length) return res.status(404).json({ error: 'Not found' });
+  write('vouchers.json', next);
+  res.json({ ok: true });
+});
+
+// ─── ANALYTICS ────────────────────────────────────────────
+app.get('/api/admin/analytics', authMiddleware, adminOnly, (_, res) => {
+  const users = getUsers();
+  const rooms = read('rooms.json', []);
+  const bookings = read('bookings.json', []);
+  const complaints = read('complaints.json', []);
+  const sessions = read('gameSessions.json', []);
+  const vouchers = read('vouchers.json', []);
+  const wallets = read('wallets.json', []);
+
+  const listingsByType = {};
+  rooms.forEach((r) => {
+    const t = r.type || 'other';
+    listingsByType[t] = (listingsByType[t] || 0) + 1;
+  });
+
+  const gamesById = {};
+  let totalPointsIssued = 0;
+  sessions.forEach((s) => {
+    gamesById[s.gameId] = (gamesById[s.gameId] || 0) + 1;
+    totalPointsIssued += Number(s.pointsEarned) || 0;
+  });
+
+  const walletPoints = Array.isArray(wallets)
+    ? wallets.reduce((sum, w) => sum + (Number(w.points) || 0), 0)
+    : Object.values(wallets || {}).reduce((sum, w) => sum + (Number(w.points) || 0), 0);
+
+  res.json({
+    summary: {
+      tenants: users.filter((u) => u.role === 'tenant').length,
+      owners: users.filter((u) => u.role === 'owner').length,
+      listings: rooms.length,
+      bookings: bookings.length,
+      complaintsOpen: complaints.filter((c) => c.status !== 'resolved' && c.status !== 'closed').length,
+      gameSessions: sessions.length,
+      totalPointsIssued,
+      walletPointsHeld: walletPoints,
+      vouchersActive: vouchers.filter((v) => v.active).length,
+    },
+    listingsByType,
+    gamesById,
+  });
 });
 
 const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');

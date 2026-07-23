@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Trash2, Edit2, ExternalLink, Save, X } from 'lucide-react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getAdminRooms, updateAdminRoom, deleteAdminRoom } from '../../../api/client';
 import { formatPrice, TYPE_LABELS } from '../../../utils/helpers';
 
@@ -46,8 +47,17 @@ export default function AdminListingsPage() {
 
   return (
     <DashboardLayout role="admin" title="All Listings">
-      <div className="mb-6 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-800 ring-1 ring-emerald-100">
-        <strong>100% FREE property posting</strong> for owners — no commission. Admin can edit or delete any listing.
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-800 ring-1 ring-emerald-100">
+          <strong>100% FREE property posting</strong> for owners — no commission. Admin can edit or delete any listing.
+        </div>
+        <DownloadCsvButton
+          filename="smartroooms-listings"
+          rows={rooms.map((r) => ({
+            id: r.id, title: r.title, type: r.type, location: r.location, price: r.price,
+            verified: r.verified, featured: r.featured, ownerId: r.ownerId || '',
+          }))}
+        />
       </div>
 
       <div className="space-y-4">

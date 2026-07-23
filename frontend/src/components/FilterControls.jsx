@@ -4,6 +4,45 @@ export default function FilterControls({ filters, updateFilter, toggleAmenity })
   return (
     <div className="space-y-5">
       <div>
+        <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500">Sort By</label>
+        <select
+          value={filters.sort || ''}
+          onChange={(e) => updateFilter('sort', e.target.value)}
+          className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm"
+        >
+          <option value="">Relevance</option>
+          <option value="price-asc">Rent: Low to High</option>
+          <option value="price-desc">Rent: High to Low</option>
+          <option value="rating">Top Rated</option>
+          <option value="newest">Newest First</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500">Budget Quick Pick</label>
+        <div className="flex flex-wrap gap-1.5">
+          {[
+            { label: 'Under ₹5K', max: '5000' },
+            { label: 'Under ₹8K', max: '8000' },
+            { label: 'Under ₹12K', max: '12000' },
+            { label: '₹8K+', min: '8000' },
+          ].map((b) => (
+            <button
+              key={b.label}
+              type="button"
+              onClick={() => {
+                updateFilter('minPrice', b.min || '');
+                updateFilter('maxPrice', b.max || '');
+              }}
+              className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700 hover:bg-brand-50 hover:text-brand-700"
+            >
+              {b.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
         <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500">Jaipur Area</label>
         <select
           value={filters.location}

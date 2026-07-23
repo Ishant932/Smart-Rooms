@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Mail, MapPin, Phone, Share2, Globe, MessageCircle,
+  Mail, MapPin, Phone, MessageCircle, Bot,
   Building2, Users, Gamepad2, Shield, GraduationCap,
-  Clock, CreditCard, Heart,
+  Clock, CreditCard, Sparkles, ArrowUpRight,
 } from 'lucide-react';
 
 const TENANT_LINKS = [
@@ -14,7 +14,6 @@ const TENANT_LINKS = [
   ['Shared Rooms', '/rooms?type=shared-room'],
   ['Compare Properties', '/compare'],
   ['Post Requirement', '/post-requirement'],
-  ['Room Partners', '/dashboard/tenant/room-partner'],
   ['Play & Earn Games', '/dashboard/tenant/games'],
 ];
 
@@ -29,11 +28,10 @@ const OWNER_LINKS = [
 
 const SUPPORT_LINKS = [
   ['Help Center', '/help'],
-  ['Smart Services', '/services'],
+  ['Ask Saathi AI', '/help'],
   ['Contact Us', '/contact'],
   ['Privacy Policy', '/privacy'],
   ['Terms & Conditions', '/terms'],
-  ['Complaints', '/dashboard/tenant/complaints'],
 ];
 
 const AREAS = [
@@ -45,187 +43,132 @@ const AREAS = [
 const STATS = [
   { label: 'Jaipur Areas', value: '12+' },
   { label: 'Property Types', value: '5' },
-  { label: 'Mini Games', value: '11' },
+  { label: 'Mini Games', value: '6' },
   { label: 'Brokerage', value: '₹0' },
 ];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-800 bg-gray-900 text-gray-300">
-      {/* Stats bar */}
-      <div className="border-b border-gray-800 bg-gradient-to-r from-brand-900/50 via-purple-900/30 to-gray-900">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-slate-950 text-gray-300">
+      <div className="pointer-events-none absolute inset-0 crazy-mesh opacity-40" />
+      <div className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-rose-500/20 blur-3xl" />
+
+      <div className="relative border-b border-white/10">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-8 sm:grid-cols-4 sm:px-6 lg:px-8">
           {STATS.map(({ label, value }, i) => (
             <motion.div
               key={label}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="text-center"
+              transition={{ delay: i * 0.08 }}
+              className="rounded-2xl bg-white/5 p-4 text-center ring-1 ring-white/10 backdrop-blur"
             >
-              <p className="text-2xl font-extrabold text-white sm:text-3xl">{value}</p>
-              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-gray-400">{label}</p>
+              <p className="title-multicolor text-2xl font-black sm:text-3xl">{value}</p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400">{label}</p>
             </motion.div>
           ))}
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-6">
-          {/* Brand */}
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold text-white">
-              Smart<span className="text-brand-400">Roooms</span>
+            <h3 className="text-3xl font-black tracking-tight text-white">
+              Smart<span className="gradient-text">Roooms</span>
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-gray-400">
-              Jaipur&apos;s most loved student room platform. Browse verified PGs & flats, chat with owners,
-              play reward games, find room partners, and list your property free — trusted by students
-              at MNIT, JECRC, Amity, Poornima & every college in Pink City.
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-gray-400">
+              Jaipur student housing — zero brokerage, owner chat, Saathi AI guide, and Play & Earn points you redeem for rent.
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {['Zero Brokerage', 'Owner Chat', 'Free Listing', '11 Mini Games'].map((tag) => (
-                <span key={tag} className="rounded-full bg-gray-800 px-3 py-1 text-xs font-medium text-brand-300 ring-1 ring-gray-700">
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['Zero Brokerage', 'Owner Chat', 'Saathi AI', '6 Mini Games'].map((tag) => (
+                <span key={tag} className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-cyan-200 ring-1 ring-white/10">
                   {tag}
                 </span>
               ))}
             </div>
-            <div className="mt-6 flex gap-3">
-              <a href="mailto:hello@smartroooms.in" title="Email" className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:bg-brand-500 hover:text-white">
-                <Mail size={18} />
+            <div className="mt-6 space-y-2 text-sm">
+              <a href="mailto:hello@smartroooms.in" className="flex items-center gap-2 hover:text-cyan-300">
+                <Mail size={16} /> hello@smartroooms.in
               </a>
-              <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" title="WhatsApp" className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:bg-green-600 hover:text-white">
-                <MessageCircle size={18} />
-              </a>
-              <a href="#" title="Website" className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:bg-brand-500 hover:text-white">
-                <Globe size={18} />
-              </a>
-              <a href="#" title="Share" className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:bg-purple-600 hover:text-white">
-                <Share2 size={18} />
-              </a>
+              <p className="flex items-center gap-2"><MapPin size={16} /> Katewa Nagar, Jaipur</p>
+              <p className="flex items-center gap-2 text-gray-500"><Bot size={16} /> Tap the Saathi button anytime</p>
             </div>
           </div>
 
-          {/* For Tenants */}
           <div>
-            <h4 className="flex items-center gap-2 font-semibold text-white">
-              <Users size={16} className="text-brand-400" /> For Tenants
-            </h4>
-            <ul className="mt-4 space-y-2.5 text-sm">
+            <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-cyan-300">For Tenants</h4>
+            <ul className="space-y-2 text-sm">
               {TENANT_LINKS.map(([label, to]) => (
-                <li key={to}>
-                  <Link to={to} className="transition hover:text-brand-400 hover:underline">{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* For Owners */}
-          <div>
-            <h4 className="flex items-center gap-2 font-semibold text-white">
-              <Building2 size={16} className="text-brand-400" /> For Owners
-            </h4>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {OWNER_LINKS.map(([label, to]) => (
-                <li key={to}>
-                  <Link to={to} className="transition hover:text-brand-400 hover:underline">{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Jaipur Areas */}
-          <div>
-            <h4 className="flex items-center gap-2 font-semibold text-white">
-              <MapPin size={16} className="text-brand-400" /> Jaipur Areas
-            </h4>
-            <ul className="mt-4 space-y-2 text-sm">
-              {AREAS.map((area) => (
-                <li key={area}>
-                  <Link to={`/rooms?city=Jaipur&location=${encodeURIComponent(area)}`} className="transition hover:text-brand-400">
-                    Rooms in {area}
+                <li key={to + label}>
+                  <Link to={to} className="group inline-flex items-center gap-1 hover:text-white">
+                    {label}
+                    <ArrowUpRight size={12} className="opacity-0 transition group-hover:opacity-100" />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact & Support */}
           <div>
-            <h4 className="flex items-center gap-2 font-semibold text-white">
-              <Shield size={16} className="text-brand-400" /> Support
-            </h4>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {SUPPORT_LINKS.map(([label, to]) => (
-                <li key={to}>
-                  <Link to={to} className="transition hover:text-brand-400">{label}</Link>
+            <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-violet-300">For Owners</h4>
+            <ul className="space-y-2 text-sm">
+              {OWNER_LINKS.map(([label, to]) => (
+                <li key={to + label}>
+                  <Link to={to} className="group inline-flex items-center gap-1 hover:text-white">
+                    {label}
+                    <ArrowUpRight size={12} className="opacity-0 transition group-hover:opacity-100" />
+                  </Link>
                 </li>
               ))}
             </ul>
+          </div>
 
-            <h4 className="mt-6 flex items-center gap-2 font-semibold text-white">
-              <GraduationCap size={16} className="text-brand-400" /> Contact
-            </h4>
-            <ul className="mt-3 space-y-3 text-sm">
-              <li className="flex items-start gap-2">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-brand-400" />
-                <span>Katewa Nagar, New Sanganer Road, Jaipur, Rajasthan — 302020</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail size={16} className="shrink-0 text-brand-400" />
-                <a href="mailto:hello@smartroooms.in" className="hover:text-brand-400">hello@smartroooms.in</a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone size={16} className="shrink-0 text-brand-400" />
-                <a href="tel:+919876543210" className="hover:text-brand-400">+91 98765 43210</a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Clock size={16} className="shrink-0 text-brand-400" />
-                <span>Mon–Sat, 9 AM – 8 PM IST</span>
-              </li>
+          <div className="lg:col-span-2">
+            <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-rose-300">Jaipur Areas</h4>
+            <div className="flex flex-wrap gap-2">
+              {AREAS.map((area) => (
+                <Link
+                  key={area}
+                  to={`/rooms?city=Jaipur&location=${encodeURIComponent(area)}`}
+                  className="rounded-full bg-white/5 px-2.5 py-1 text-[11px] font-medium text-gray-300 ring-1 ring-white/10 transition hover:bg-cyan-500/20 hover:text-white"
+                >
+                  {area}
+                </Link>
+              ))}
+            </div>
+            <h4 className="mb-3 mt-6 text-xs font-bold uppercase tracking-widest text-amber-300">Support</h4>
+            <ul className="grid grid-cols-2 gap-2 text-sm">
+              {SUPPORT_LINKS.map(([label, to]) => (
+                <li key={label}>
+                  <Link to={to} className="hover:text-white">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Facilities & payment row */}
-        <div className="mt-12 grid gap-6 rounded-2xl border border-gray-800 bg-gray-800/40 p-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div>
-            <h5 className="flex items-center gap-2 text-sm font-semibold text-white">
-              <Heart size={14} className="text-pink-400" /> Facilities We Cover
-            </h5>
-            <p className="mt-2 text-xs leading-relaxed text-gray-400">
-              WiFi · AC · Meals · Laundry · CCTV Security · Parking · RO Water · Power Backup ·
-              Study Rooms · Gym · Verified Photos · Tenant Complaint Support
-            </p>
-          </div>
-          <div>
-            <h5 className="flex items-center gap-2 text-sm font-semibold text-white">
-              <Gamepad2 size={14} className="text-amber-400" /> Rewards Program
-            </h5>
-            <p className="mt-2 text-xs leading-relaxed text-gray-400">
-              Welcome bonus on signup · Refer friends · Play 11 games · 500 pts = ₹50 rent credit ·
-              Wallet pay toward PG rent
-            </p>
-          </div>
-          <div>
-            <h5 className="flex items-center gap-2 text-sm font-semibold text-white">
-              <CreditCard size={14} className="text-emerald-400" /> Payment & Trust
-            </h5>
-            <p className="mt-2 text-xs leading-relaxed text-gray-400">
-              UPI · Wallet balance · Direct owner payment · No hidden brokerage · Admin-verified listings ·
-              Previous tenant WhatsApp connect
-            </p>
-          </div>
+        <div className="mt-12 grid gap-3 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 sm:grid-cols-4">
+          {[
+            { icon: Shield, t: 'Verified listings' },
+            { icon: Gamepad2, t: '6 arcade games' },
+            { icon: GraduationCap, t: 'Student-first' },
+            { icon: CreditCard, t: 'Wallet rewards' },
+          ].map(({ icon: Icon, t }) => (
+            <div key={t} className="flex items-center gap-2 text-xs font-semibold text-gray-300">
+              <Icon size={16} className="text-cyan-400" /> {t}
+            </div>
+          ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 text-xs text-gray-500 sm:flex-row">
-          <p>&copy; 2026 SmartRoooms Pvt. Ltd. All rights reserved. Zero Brokerage Policy · Made with ❤️ in Jaipur</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/privacy" className="hover:text-gray-300">Privacy</Link>
-            <Link to="/terms" className="hover:text-gray-300">Terms</Link>
-            <Link to="/help" className="hover:text-gray-300">Help</Link>
-            <Link to="/contact" className="hover:text-gray-300">Contact</Link>
-          </div>
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-gray-500 sm:flex-row">
+          <p>© {new Date().getFullYear()} SmartRoooms · Jaipur</p>
+          <p className="flex items-center gap-1">
+            <Sparkles size={12} className="text-amber-400" />
+            Welcome bonus · Refer friends · Play 6 games · 500 pts = ₹50 rent credit
+          </p>
+          <p className="flex items-center gap-1"><Clock size={12} /> Built for Pink City students</p>
         </div>
       </div>
     </footer>

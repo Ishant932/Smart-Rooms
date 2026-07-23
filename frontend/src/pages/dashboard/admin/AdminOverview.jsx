@@ -24,7 +24,13 @@ import { getAdminDashboard } from '../../../api/client';
 
 const QUICK_LINKS = [
 
-  { to: '/dashboard/admin/users', label: 'Users & Listings', icon: Users, color: 'bg-brand-500' },
+  { to: '/dashboard/admin/analytics', label: 'Analytics', icon: Shield, color: 'bg-cyan-500' },
+
+  { to: '/dashboard/admin/owners', label: 'Owners', icon: Building2, color: 'bg-violet-500' },
+
+  { to: '/dashboard/admin/tenants', label: 'Tenants', icon: Users, color: 'bg-brand-500' },
+
+  { to: '/dashboard/admin/vouchers', label: 'Vouchers', icon: Gift, color: 'bg-amber-500' },
 
   { to: '/dashboard/admin/listings', label: 'All Listings', icon: Home, color: 'bg-indigo-500' },
 
@@ -36,11 +42,11 @@ const QUICK_LINKS = [
 
   { to: '/dashboard/admin/feedback', label: 'Feedback', icon: MessageSquare, color: 'bg-pink-500' },
 
-  { to: '/dashboard/admin/bookings', label: 'Bookings', icon: BookOpen, color: 'bg-amber-500' },
+  { to: '/dashboard/admin/bookings', label: 'Bookings', icon: BookOpen, color: 'bg-amber-600' },
 
   { to: '/dashboard/admin/transactions', label: 'Activity', icon: Wallet, color: 'bg-purple-500' },
 
-  { to: '/post', label: 'Post Room (Free)', icon: Building2, color: 'bg-cyan-500' },
+  { to: '/post', label: 'Post Room (Free)', icon: Building2, color: 'bg-teal-500' },
 
 ];
 

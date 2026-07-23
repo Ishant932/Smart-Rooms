@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getAdminBookings } from '../../../api/client';
 
 export default function AdminTransactionsPage() {
@@ -13,6 +14,14 @@ export default function AdminTransactionsPage() {
 
   return (
     <DashboardLayout role="admin" title="Platform Activity">
+      <div className="mb-4 flex justify-end">
+        <DownloadCsvButton
+          filename="smartroooms-revenue"
+          rows={bookings.map((b) => ({
+            id: b.id, room: b.roomTitle, tenant: b.tenantName, rent: b.rentAmount, status: b.status, type: b.type,
+          }))}
+        />
+      </div>
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <div className="rounded-2xl bg-white p-5 shadow-md ring-1 ring-gray-100">
           <p className="text-sm text-gray-500">Total Bookings</p>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getAdminRequirements, updateAdminRequirement, deleteAdminRequirement } from '../../../api/client';
 
 export default function AdminRequirementsPage() {
@@ -22,7 +23,15 @@ export default function AdminRequirementsPage() {
 
   return (
     <DashboardLayout role="admin" title="Tenant Requirements">
-      <p className="mb-6 text-sm text-gray-500">Requirements posted by registered tenants — contact them directly (zero brokerage).</p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-gray-500">Requirements posted by registered tenants — contact them directly (zero brokerage).</p>
+        <DownloadCsvButton
+          filename="smartroooms-requirements"
+          rows={requirements.map((r) => ({
+            id: r.id, name: r.userName, email: r.userEmail, type: r.type, area: r.area, budget: r.budget, status: r.status,
+          }))}
+        />
+      </div>
 
       {requirements.length === 0 ? (
         <div className="rounded-2xl bg-white p-12 text-center text-gray-500 ring-1 ring-gray-100">No requirements posted yet.</div>

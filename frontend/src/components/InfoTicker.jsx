@@ -10,7 +10,7 @@ const TICKER_ITEMS = [
 
   { icon: Shield, text: '100% owner-posted listings · Admin-verified photos · Chat with owners before you visit' },
 
-  { icon: Gamepad2, text: 'Play 11 mini games & earn points — redeem 500 pts for ₹50 rent credit' },
+  { icon: Gamepad2, text: 'Play 6 mini games & earn points — redeem 500 pts for ₹50 rent credit' },
 
   { icon: Sparkles, text: 'Smart Services — book tiffin, plumber, electrician, laundry & 12+ home services in Jaipur' },
 

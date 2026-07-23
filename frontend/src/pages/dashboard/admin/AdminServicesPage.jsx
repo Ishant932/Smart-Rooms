@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Wrench, MapPin, Phone, Calendar } from 'lucide-react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getAdminServiceBookings, updateAdminServiceBooking } from '../../../api/client';
 
 const STATUS_COLORS = {
@@ -27,9 +28,17 @@ export default function AdminServicesPage() {
 
   return (
     <DashboardLayout role="admin" title="Smart Services Bookings">
-      <p className="mb-4 text-sm text-gray-500">
-        Tenant service requests — tiffin, plumber, laundry & more. Update status and add notes.
-      </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-gray-500">
+          Tenant service requests — tiffin, plumber, laundry & more. Update status and add notes.
+        </p>
+        <DownloadCsvButton
+          filename="smartroooms-services"
+          rows={filtered.map((b) => ({
+            id: b.id, service: b.serviceName || b.category, status: b.status, area: b.area, phone: b.phone, createdAt: b.createdAt,
+          }))}
+        />
+      </div>
 
       <div className="mb-6 flex flex-wrap gap-2">
         {[

@@ -152,6 +152,77 @@ export default function HomePage() {
 
       <TrustStrip />
 
+      {/* Crazy spotlight — Saathi + Games + Zero brokerage */}
+      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 crazy-mesh" />
+        <motion.div
+          className="pointer-events-none absolute left-1/4 top-10 h-40 w-40 rounded-full bg-cyan-400/40 blur-3xl"
+          animate={{ scale: [1, 1.3, 1], x: [0, 40, 0] }}
+          transition={{ repeat: Infinity, duration: 7 }}
+        />
+        <motion.div
+          className="pointer-events-none absolute bottom-10 right-1/4 h-48 w-48 rounded-full bg-rose-400/35 blur-3xl"
+          animate={{ scale: [1.2, 1, 1.2], y: [0, -30, 0] }}
+          transition={{ repeat: Infinity, duration: 6 }}
+        />
+        <div className="relative mx-auto max-w-7xl text-white">
+          <SectionHeading
+            dark
+            badge="Next Level"
+            title="This is where it gets"
+            highlight="crazy"
+            subtitle="Saathi AI answers your questions · 6 arcade games with tiny rewards · zero brokerage forever"
+          />
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: Sparkles,
+                title: 'Ask Saathi',
+                desc: 'Floating AI guide trained on SmartRoooms — rooms, wallet, games, posting a PG.',
+                cta: 'Open chat →',
+                to: '/help',
+                accent: 'from-cyan-400 to-blue-500',
+              },
+              {
+                icon: Users,
+                title: 'Play & Earn',
+                desc: 'Six fully animated mini games. Low points (1–3) — stack slowly to ₹50 rent credit.',
+                cta: 'Play now →',
+                to: '/dashboard/tenant/games',
+                accent: 'from-violet-400 to-fuchsia-500',
+              },
+              {
+                icon: Shield,
+                title: '₹0 Brokerage',
+                desc: 'Chat owners directly. Compare listings. Filter like a pro across 12+ Jaipur areas.',
+                cta: 'Browse rooms →',
+                to: '/rooms',
+                accent: 'from-rose-400 to-orange-500',
+              },
+            ].map(({ icon: Icon, title, desc, cta, to, accent }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 40, rotate: -2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.12, type: 'spring' }}
+                whileHover={{ y: -10, scale: 1.03 }}
+                className="group relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur-xl"
+              >
+                <div className={`mb-4 inline-flex rounded-2xl bg-gradient-to-br ${accent} p-3 shadow-lg`}>
+                  <Icon size={22} />
+                </div>
+                <h3 className="text-xl font-extrabold tracking-tight">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/75">{desc}</p>
+                <Link to={to} className="mt-5 inline-flex text-sm font-bold text-cyan-200 group-hover:text-white">
+                  {cta}
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <SmartServicesHero />
 
       {/* Categories */}

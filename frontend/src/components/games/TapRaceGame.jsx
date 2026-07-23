@@ -36,7 +36,7 @@ export default function TapRaceGame() {
   };
 
   return (
-    <GameShell title="Tap Race" emoji="👆" subtitle="Tap fast for 5 seconds!" gradient="from-cyan-600 to-blue-800" delay={0.2} pointsHint="1–4 pts">
+    <GameShell title="Tap Race" emoji="👆" subtitle="Tap fast for 5 seconds!" gradient="from-cyan-600 to-blue-800" delay={0.2} pointsHint="1–2 pts">
       <div className="text-center">
         <motion.button
           type="button"

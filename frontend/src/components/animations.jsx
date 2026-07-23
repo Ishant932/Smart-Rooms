@@ -43,11 +43,45 @@ export function AnimatedItem({ children, className = '', index = 0 }) {
 export function PulseGlow({ children, className = '' }) {
   return (
     <motion.div
-      animate={{ boxShadow: ['0 0 0 0 rgba(99,102,241,0.4)', '0 0 0 12px rgba(99,102,241,0)', '0 0 0 0 rgba(99,102,241,0)'] }}
+      animate={{ boxShadow: ['0 0 0 0 rgba(6,182,212,0.4)', '0 0 0 12px rgba(6,182,212,0)', '0 0 0 0 rgba(6,182,212,0)'] }}
       transition={{ repeat: Infinity, duration: 2.5 }}
       className={className}
     >
       {children}
     </motion.div>
+  );
+}
+
+export function TabMotion({ active, children, className = '' }) {
+  return (
+    <motion.button
+      type="button"
+      whileHover={{ y: -2, scale: 1.02 }}
+      whileTap={{ scale: 0.97 }}
+      className={`relative ${className}`}
+    >
+      {active && (
+        <motion.span
+          layoutId="tab-pill"
+          className="absolute inset-0 rounded-xl bg-brand-500 shadow-md shadow-brand-500/30"
+          transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+        />
+      )}
+      <span className="relative z-10">{children}</span>
+    </motion.button>
+  );
+}
+
+export function RevealSection({ children, className = '', delay = 0 }) {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ delay, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.section>
   );
 }

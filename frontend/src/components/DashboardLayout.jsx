@@ -5,7 +5,7 @@ import ThreeDBackground from './ThreeDBackground';
 import {
   LayoutDashboard, Wallet, Gamepad2, Users, Star, AlertCircle,
   Building2, BookOpen, LogOut, Menu, X, Gift, Home, UserCircle, FileText, MessageCircle,
-  Wrench, MessageSquare,
+  Wrench, MessageSquare, Ticket, BarChart3, UserCog,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -38,8 +38,12 @@ const NAV = {
   ],
   admin: [
     { to: '/dashboard/admin', label: 'Overview', icon: LayoutDashboard, end: true },
-    { to: '/dashboard/admin/users', label: 'Users', icon: Users },
+    { to: '/dashboard/admin/analytics', label: 'Analytics', icon: BarChart3 },
+    { to: '/dashboard/admin/owners', label: 'Owners', icon: Building2 },
+    { to: '/dashboard/admin/tenants', label: 'Tenants', icon: Users },
+    { to: '/dashboard/admin/users', label: 'All Users', icon: UserCog },
     { to: '/dashboard/admin/listings', label: 'All Listings', icon: Home },
+    { to: '/dashboard/admin/vouchers', label: 'Vouchers', icon: Ticket },
     { to: '/dashboard/admin/requirements', label: 'Requirements', icon: FileText },
     { to: '/dashboard/admin/bookings', label: 'Bookings', icon: BookOpen },
     { to: '/dashboard/admin/complaints', label: 'Complaints', icon: AlertCircle },

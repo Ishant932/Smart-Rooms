@@ -16,7 +16,7 @@ const COLLEGES = ['MNIT Jaipur', 'JECRC', 'Amity University', 'Poornima', 'Manip
 const HIGHLIGHTS = [
   { icon: Shield, label: 'Zero Brokerage', desc: 'Deal directly with owners — no middlemen fees ever' },
   { icon: Wallet, label: 'Smart Wallet', desc: 'Earn points, redeem 500 pts for ₹50 rent credit' },
-  { icon: Gamepad2, label: 'Play & Earn', desc: '11 fun mini games with daily reward points' },
+  { icon: Gamepad2, label: 'Play & Earn', desc: '6 fun mini games with daily reward points' },
   { icon: Users, label: 'Room Partners', desc: 'Split rent with verified students near your college' },
 ];
 

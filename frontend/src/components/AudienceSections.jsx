@@ -9,7 +9,7 @@ import SectionHeading from './SectionHeading';
 const TENANT_PERKS = [
   { icon: Shield, title: 'Zero brokerage', desc: 'Every listing is owner-posted. No hidden agent fees — ever.' },
   { icon: MessageCircle, title: 'Chat before you visit', desc: 'Message owners directly, ask about meals, WiFi & visit timing.' },
-  { icon: Gamepad2, title: 'Play & earn points', desc: '11 mini games on your dashboard — turn spare time into rent savings.' },
+  { icon: Gamepad2, title: 'Play & earn points', desc: '6 mini games on your dashboard — turn spare time into rent savings.' },
   { icon: Wallet, title: 'Smart wallet', desc: 'Redeem 500 reward points for ₹50 rent credit. Pay PG rent from balance.' },
 ];
 

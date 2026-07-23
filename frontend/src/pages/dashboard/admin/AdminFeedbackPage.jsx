@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Star } from 'lucide-react';
 import DashboardLayout from '../../../components/DashboardLayout';
+import DownloadCsvButton from '../../../components/DownloadCsvButton';
 import { getAdminFeedback, updateAdminFeedback } from '../../../api/client';
 
 export default function AdminFeedbackPage() {
@@ -20,9 +21,17 @@ export default function AdminFeedbackPage() {
 
   return (
     <DashboardLayout role="admin" title="Platform Feedback">
-      <p className="mb-4 text-sm text-gray-500">
-        Feedback from tenants and owners — reply and mark as resolved.
-      </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-gray-500">
+          Feedback from tenants and owners — reply and mark as resolved.
+        </p>
+        <DownloadCsvButton
+          filename="smartroooms-feedback"
+          rows={filtered.map((f) => ({
+            id: f.id, role: f.role, category: f.category, subject: f.subject, status: f.status, rating: f.rating, createdAt: f.createdAt,
+          }))}
+        />
+      </div>
 
       <div className="mb-6 flex flex-wrap gap-2">
         {[

@@ -85,4 +85,12 @@ export const updateAdminFeedback = (id, data) => api.patch(`/admin/feedback/${id
 export const getAdminServiceBookings = () => api.get('/admin/service-bookings').then((r) => r.data);
 export const updateAdminServiceBooking = (id, data) => api.patch(`/admin/service-bookings/${id}`, data).then((r) => r.data);
 
+export const askSaathi = (message) => api.post('/saathi/chat', { message }).then((r) => r.data);
+
+export const getAdminVouchers = () => api.get('/admin/vouchers').then((r) => r.data);
+export const createAdminVoucher = (data) => api.post('/admin/vouchers', data).then((r) => r.data);
+export const updateAdminVoucher = (id, data) => api.patch(`/admin/vouchers/${id}`, data).then((r) => r.data);
+export const deleteAdminVoucher = (id) => api.delete(`/admin/vouchers/${id}`).then((r) => r.data);
+export const getAdminAnalytics = () => api.get('/admin/analytics').then((r) => r.data);
+
 export default api;

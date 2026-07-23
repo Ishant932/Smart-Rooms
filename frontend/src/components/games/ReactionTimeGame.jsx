@@ -40,7 +40,7 @@ export default function ReactionTimeGame() {
   const bg = phase === 'go' ? 'from-emerald-500 to-green-700' : phase === 'waiting' ? 'from-amber-500 to-orange-700' : 'from-rose-600 to-pink-800';
 
   return (
-    <GameShell title="Reaction Time" emoji="⚡" subtitle="Click when screen turns green" gradient={bg} delay={0.25} pointsHint="1–6 pts">
+    <GameShell title="Reaction Time" emoji="⚡" subtitle="Click when screen turns green" gradient={bg} delay={0.25} pointsHint="1–3 pts">
       <div className="text-center">
         <motion.button
           type="button"
