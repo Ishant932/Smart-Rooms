@@ -145,6 +145,130 @@ function sanitizeUser(user) {
   return safe;
 }
 
+function generateOtp() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+function getPasswordResets() {
+  return read('passwordResets.json', []);
+}
+
+function savePasswordResets(list) {
+  write('passwordResets.json', list);
+}
+
+async function requestPasswordReset(email) {
+  const normalized = String(email || '').trim().toLowerCase();
+  if (!normalized || !normalized.includes('@')) {
+    return { error: 'Valid email is required' };
+  }
+
+  const users = getUsers();
+  const user = users.find((u) => u.email.toLowerCase() === normalized);
+
+  if (!user) {
+    return {
+      message: 'If an account exists for this email, a 6-digit OTP has been sent. Check your inbox.',
+    };
+  }
+  if (user.status === 'suspended') {
+    return { error: 'Your account has been suspended. Contact admin.' };
+  }
+
+  const otp = generateOtp();
+  const otpHash = await bcrypt.hash(otp, 8);
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+
+  const list = getPasswordResets().filter((r) => r.email !== normalized);
+  list.unshift({
+    id: uuidv4(),
+    email: normalized,
+    userId: user.id,
+    otpHash,
+    attempts: 0,
+    expiresAt,
+    createdAt: new Date().toISOString(),
+  });
+  savePasswordResets(list.slice(0, 200));
+
+  try {
+    const { sendPasswordResetOtp } = require('./email');
+    await sendPasswordResetOtp({ to: normalized, name: user.name || user.firstName, otp });
+  } catch (err) {
+    console.error('[auth] OTP email failed:', err.message, err.details || '');
+    if (err.code === 'EMAIL_NOT_CONFIGURED') {
+      return { error: 'Email service is not configured. Contact admin.' };
+    }
+    const msg = String(err.message || '');
+    if (/verify a domain|only send testing emails/i.test(msg)) {
+      return {
+        error: 'Resend can only email the account owner until you verify a domain at resend.com/domains. After verifying, set RESEND_FROM to an address on that domain.',
+      };
+    }
+    return { error: 'Could not send OTP email. Please try again in a minute.' };
+  }
+
+  return {
+    message: 'OTP sent to your email. Enter the 6-digit code to reset your password.',
+    email: normalized,
+    expiresInMinutes: 10,
+  };
+}
+
+async function resetPasswordWithOtp({ email, otp, newPassword }) {
+  const normalized = String(email || '').trim().toLowerCase();
+  const code = String(otp || '').trim();
+
+  if (!normalized || !code) return { error: 'Email and OTP are required' };
+  if (!newPassword || newPassword.length < 6) {
+    return { error: 'Password must be at least 6 characters' };
+  }
+  if (!/^\d{6}$/.test(code)) return { error: 'OTP must be a 6-digit code' };
+
+  const list = getPasswordResets();
+  const idx = list.findIndex((r) => r.email === normalized);
+  if (idx === -1) return { error: 'OTP expired or not found. Request a new code.' };
+
+  const record = list[idx];
+  if (new Date(record.expiresAt).getTime() < Date.now()) {
+    list.splice(idx, 1);
+    savePasswordResets(list);
+    return { error: 'OTP expired. Request a new code.' };
+  }
+  if (record.attempts >= 5) {
+    list.splice(idx, 1);
+    savePasswordResets(list);
+    return { error: 'Too many attempts. Request a new OTP.' };
+  }
+
+  const ok = await bcrypt.compare(code, record.otpHash);
+  if (!ok) {
+    list[idx] = { ...record, attempts: (record.attempts || 0) + 1 };
+    savePasswordResets(list);
+    return { error: 'Invalid OTP. Check the code and try again.' };
+  }
+
+  const users = getUsers();
+  const userIdx = users.findIndex((u) => u.id === record.userId || u.email.toLowerCase() === normalized);
+  if (userIdx === -1) {
+    list.splice(idx, 1);
+    savePasswordResets(list);
+    return { error: 'User not found' };
+  }
+
+  users[userIdx] = {
+    ...users[userIdx],
+    password: await bcrypt.hash(newPassword, 10),
+    passwordUpdatedAt: new Date().toISOString(),
+  };
+  saveUsers(users);
+
+  list.splice(idx, 1);
+  savePasswordResets(list);
+
+  return { message: 'Password updated successfully. You can sign in with your new password.' };
+}
+
 async function register(payload) {
   const {
     name, firstName, lastName, email, password, role, phone, college, referralCode,
@@ -318,6 +442,8 @@ module.exports = {
   sanitizeUser,
   register,
   login,
+  requestPasswordReset,
+  resetPasswordWithOtp,
   updateProfile,
   authMiddleware,
   adminOnly,

@@ -16,6 +16,7 @@ import RoomDetailPage from './pages/RoomDetailPage';
 import PostRoomPage from './pages/PostRoomPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import PostRequirementPage from './pages/PostRequirementPage';
@@ -78,6 +79,8 @@ function AppShell() {
           <Route path="/rooms/:id" element={<RoomDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ForgotPasswordPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/post-requirement" element={<PostRequirementPage />} />

@@ -186,7 +186,11 @@ export default function LoginPage() {
 
         </FormField>
 
-
+        <div className="-mt-2 text-right">
+          <Link to="/forgot-password" className="text-sm font-semibold text-brand-600 hover:text-brand-700 hover:underline">
+            Forgot password?
+          </Link>
+        </div>
 
         {error && <FormAlert>{error}</FormAlert>}
 

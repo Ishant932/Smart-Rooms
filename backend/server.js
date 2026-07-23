@@ -1,14 +1,16 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
-const { read, write } = require('./lib/db');
+const { read, write, initDb, isMongoReady } = require('./lib/db');
 const {
   register, login, updateProfile, authMiddleware, adminOnly, getUsers, getWallet, getWallets,
   addPoints, addCash, redeemPointsForDiscount, processBookingReferral,
   processTransactionPoints, addWalletTransaction, sanitizeUser, updateWallet, saveUsers,
+  requestPasswordReset, resetPasswordWithOtp,
   POINTS_FOR_DISCOUNT, DISCOUNT_AMOUNT, REFERRAL_CASH, SIGNUP_POINTS, TRANSACTION_POINTS,
 } = require('./lib/auth');
 
@@ -162,6 +164,18 @@ app.post('/api/auth/register', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
   const result = await login(req.body.email, req.body.password);
   if (result.error) return res.status(401).json(result);
+  res.json(result);
+});
+
+app.post('/api/auth/forgot-password', async (req, res) => {
+  const result = await requestPasswordReset(req.body.email);
+  if (result.error) return res.status(400).json(result);
+  res.json(result);
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  const result = await resetPasswordWithOtp(req.body);
+  if (result.error) return res.status(400).json(result);
   res.json(result);
 });
 
@@ -658,7 +672,16 @@ app.post('/api/bookings', authMiddleware, (_req, res) => {
 });
 
 // ─── EXISTING ROOMS API ───────────────────────────────────
-app.get('/api/health', (_, res) => res.json({ status: 'ok', message: 'SmartRoooms API is running' }));
+app.get('/api/health', (_, res) => {
+  res.json({
+    status: 'ok',
+    message: 'SmartRoooms API is running',
+    mongo: isMongoReady(),
+    city: 'Jaipur',
+    time: new Date().toISOString(),
+  });
+});
+
 
 app.get('/api/stats', (_, res) => {
   const rooms = readRooms().filter((r) => r.city === 'Jaipur');
@@ -1300,11 +1323,23 @@ if (fs.existsSync(frontendDist)) {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`SmartRoooms API running on http://localhost:${PORT}`);
-  if (fs.existsSync(frontendDist)) {
-    console.log(`SmartRoooms website ready at http://localhost:${PORT} (production mode)`);
-  } else {
-    console.log(`Dev frontend: http://localhost:5173 (run npm run dev from project root)`);
+async function start() {
+  try {
+    await initDb();
+  } catch (err) {
+    console.error('[db] MongoDB connection failed:', err.message);
+    console.error('[db] Falling back to local JSON files');
   }
-});
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`SmartRoooms API running on http://0.0.0.0:${PORT}`);
+    console.log(`[db] Storage: ${isMongoReady() ? 'MongoDB Atlas + local JSON mirror' : 'local JSON only'}`);
+    if (fs.existsSync(frontendDist)) {
+      console.log(`SmartRoooms website ready at port ${PORT} (production mode)`);
+    } else {
+      console.log(`Dev frontend: http://localhost:5173 (run npm run dev from project root)`);
+    }
+  });
+}
+
+start();

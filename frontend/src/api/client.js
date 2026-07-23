@@ -70,6 +70,8 @@ export const updateAdminRequirement = (id, data) => api.patch(`/admin/requiremen
 export const updateAdminPartnership = (id, data) => api.patch(`/admin/partnerships/${id}`, data).then((r) => r.data);
 export const getAdminInquiries = () => api.get('/admin/inquiries').then((r) => r.data);
 export const updateProfile = (data) => api.patch('/auth/profile', data).then((r) => r.data);
+export const forgotPassword = (email) => api.post('/auth/forgot-password', { email }).then((r) => r.data);
+export const resetPassword = (data) => api.post('/auth/reset-password', data).then((r) => r.data);
 export const getTerms = () => api.get('/terms').then((r) => r.data);
 export const postRequirement = (data) => api.post('/requirements', data).then((r) => r.data);
 
